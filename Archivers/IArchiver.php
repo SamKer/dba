@@ -3,14 +3,6 @@ namespace DB2S3\Archivers;
 Interface IArchiver 
 {
 
-
-	/**
-	 * Check config
-	 * @param array $config
-	 * @return boolean true on success
-	 */
-	public function checkConfig($config);
-
 	/**
 	 * Put file to
 	 * @param string $file path to file

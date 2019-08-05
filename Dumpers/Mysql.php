@@ -5,7 +5,7 @@ namespace DB2S3\Dumpers;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 
-class Pgsql extends Dumper
+class Mysql extends Dumper
 {
 
     public function implementsParams()
@@ -26,13 +26,14 @@ class Pgsql extends Dumper
      */
     public function dump($file)
     {
+
         $user = $this->config['dbuser'];
         $pwd = $this->config['dbpassword'];
         $db = $this->config['dbname'];
         $port = $this->config['dbport'];
         $host = $this->config['dbhost'];
 
-        $cmd = "pg_dump --dbname=postgresql://$user:$pwd@$host:$port/$db > $file";
+        $cmd = "mysqldump -u$user -p$pwd -h $host -P $port $db > $file";
         $process = new Process($cmd);
         $process->run();
 

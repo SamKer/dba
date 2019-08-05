@@ -1,22 +1,11 @@
 <?php
 namespace DB2S3\Compressors;
 
-abstract class Compressor implements ICompressor
+use DB2S3\APlugin;
+
+abstract class Compressor extends APlugin implements ICompressor
 {
 
-	protected $config;
+    public $type = "compressor";
 
-	protected $io;
-
-	/**
-	 * @param array $config
-	 * @param SymfonyStyle $io
-	 */
-	public function __construct($config, $io=false) 
-	{
-
-		$this->config = $config;
-		$this->checkConfig($this->config);
-		$this->io = $io;
-	}
 }

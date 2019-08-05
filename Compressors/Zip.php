@@ -4,11 +4,12 @@ namespace DB2S3\Compressors;
 class Zip extends Compressor 
 {
 
-	public function checkConfig($config) {
-
+	public function implementsParams() {
+        return [];
 	}
 
-	/**
+
+    /**
 	 * Compress
 	 * @param strinf $file path
 	 * @return string $file path compressed
