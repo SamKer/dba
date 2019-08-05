@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "14c81e5eda5b8b0aad5d45045a01acdd",
+    "content-hash": "1e82447bd5ce7651aca735d2782a1838",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -534,6 +534,49 @@
             "description": "Symfony Filesystem Component",
             "homepage": "https://symfony.com",
             "time": "2019-06-23T08:51:25+00:00"
+        },
+        {
+            "name": "symfony/finder",
+            "version": "v4.3.3",
+            "dist": {
+                "type": "zip",
+                "url": "http://nexus-pic.gendarmerie.fr/repository/composer-group/symfony/finder/v4.3.3/symfony-finder-v4.3.3.zip",
+                "reference": "9638d41e3729459860bb96f6247ccb61faaa45f2",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1.3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "4.3-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Finder\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Finder Component",
+            "homepage": "https://symfony.com",
+            "time": "2019-06-28T13:16:30+00:00"
         },
         {
             "name": "symfony/polyfill-ctype",

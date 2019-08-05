@@ -111,6 +111,7 @@ class S3 extends Archiver
                 //$url = $result['Location'];
 		$url = $this->config['endpoint']."/".$this->config['bucket']."/".$name;	
                 $this->io->writeln("Uploaded {$file} to {$url}");
+                return true;
 
 
 	}

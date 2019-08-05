@@ -50,26 +50,35 @@ protected function execute(InputInterface $input, OutputInterface $output)
 	}	
 
 	$tmp = Config::get('tmp_dir');
-        $filetmp = $tmp."/". $target."_".(new \DateTime())->format('Y-m-d_His').".sql";
+	$filetmpraw = $tmp."/". $target."_".(new \DateTime())->format('Y-m-d_His').".sql";
 	
 	$dumper = $config['dumper'];
 	$compressor = $config['compressor'];
 	$archiver = $config['archiver'];
 
 	//dump
-	$dumper->dump($filetmp);
+	if (!$dumper->dump($filetmpraw)) {
+	    throw new \Exception("dump failed");
+    }
 
 	//compress
-	$filetmp = $compressor->compress($filetmp);
+	if(! ($filetmp = $compressor->compress($filetmpraw))) {
+        throw new \Exception("compress failed");
+    }
 
 	//save
-	$archiver->put($filetmp);
+	if(!$archiver->put($filetmp)) {
+	    throw new \Exception("archive failed");
+    }
 
+	//cleaner
+    unlink($filetmpraw);
+	if($filetmp !== $filetmpraw) {
+        unlink($filetmp);
+    }
 
 
 	$io->writeln('base saved');
-	
-
 
 	}
 }
