@@ -1,0 +1,39 @@
+{
+    "name": "stc/db2s3",
+    "description": "Archiver vos bases vers Scality",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "KERIOU Samir",
+            "email": "samir.keriou@gendarmerie.interieur.gouv.fr"
+        }
+    ],
+    "require": {
+	"aws/aws-sdk-php": "^3.90",
+        "symfony/console": "^4.3",
+        "symfony/filesystem": "^4.3",
+        "symfony/yaml": "^4.2",
+        "symfony/var-dumper": "^4.3",
+        "symfony/process": "^4.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "DB2S3\\": "./"
+        }
+    },
+    "options": {
+        "ssl": {
+            "verify_peer": "false"
+        }
+    },
+    "repositories": {
+        "pic-prod": {
+             "type": "composer",
+             "url": "http://nexus-pic.gendarmerie.fr/repository/composer-group/"
+        },
+	"packagist": false
+    },
+    "config": {
+	    "secure-http": false
+    }	    
+}

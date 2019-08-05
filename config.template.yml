@@ -1,0 +1,41 @@
+version: 1.0.0
+
+# temp directory
+tmp_dir: "/tmp"
+
+# conf  base targets
+targets:
+
+        name_config:
+                # the dumper config
+                dumper:
+                        # dumper class, extends ADumper
+                        class: "\\DB2S3\\Dumpers\\Pgsql"
+                        # host target
+                        dbhost: "localhost"
+                        # port target
+                        dbport: "5432"
+                        # base name target
+                        dbname: "dbname"
+                        # base user
+                        dbuser: "dbuser"
+                        #base password
+                        dbpassword: "pwd"
+
+              # compressor default to null
+                compressor:
+                        # compressor class, dextends ACompressor
+                        class: "\\DB2S3\\Compressors\\Zip"
+                       #archiver, put export to
+                archiver:
+                        # archiver class, extends AArchiver
+                        class: "\\DB2S3\\Archivers\\S3"
+                        # endpoint
+                        endpoint: "https://scality-s3.gendarmerie.fr"
+                        # keyname
+                        keyname: "keyname id"
+                        # secret
+                        secret: "secret"
+                        #bucket
+                        bucket: bucket name"
+
