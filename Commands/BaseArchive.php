@@ -9,6 +9,7 @@ namespace DB2S3\Commands;
 
 use DB2S3\Config;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -55,6 +56,21 @@ protected function execute(InputInterface $input, OutputInterface $output)
 	$dumper = $config['dumper'];
 	$compressor = $config['compressor'];
 	$archiver = $config['archiver'];
+
+
+
+	//tableau
+//	$table = new Table($io);
+//        $table
+//            ->setHeaders(['Runner', 'done', 'time'])
+//	    ->setRows(
+//		    [0=>["---","---","---"]]
+//            )
+//        ;
+//        $table->render();
+
+
+	$io->writeln('---');
 
 	//dump
 	if (!$dumper->dump($filetmpraw)) {

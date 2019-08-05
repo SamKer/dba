@@ -41,7 +41,7 @@ class Mysql extends Dumper
         if (!$process->isSuccessful()) {
             throw new ProcessFailedException($process);
         }
-        $this->io->writeln("base dumped to $file");
+        $this->io->success("base dumped to $file");
         return true;
     }
 }

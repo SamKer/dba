@@ -22,7 +22,7 @@ class Zip extends Compressor
 		$zip->addFile($file, basename($file));
     		$zip->close();
 		
-		$this->io->writeln("file compressed to $fileC");
+		$this->io->success("file compressed to $fileC");
 		return $fileC;
 	}
 }

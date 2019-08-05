@@ -45,7 +45,7 @@ class Dir extends Archiver
         if (!$fs->exists($dest)) {
             throw new \Exception("archiver failed to put file to $dest");
         }
-        $this->io->writeln("Uploaded {$file} to {$dest}");
+        $this->io->success("Uploaded {$file} to {$dest}");
         return true;
     }
 
