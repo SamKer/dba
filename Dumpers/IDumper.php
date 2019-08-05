@@ -1,5 +1,5 @@
 <?php
-namespace DB2S3\Dumpers;
+namespace DBA\Dumpers;
 Interface IDumper 
 {
 

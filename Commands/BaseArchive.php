@@ -5,9 +5,9 @@
  * Date: 23/01/19
  * Time: 10:27
  */
-namespace DB2S3\Commands;
+namespace DBA\Commands;
 
-use DB2S3\Config;
+use DBA\Config;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;

@@ -5,7 +5,7 @@
  * Date: 23/01/19
  * Time: 10:27
  */
-namespace DB2S3\Commands;
+namespace DBA\Commands;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -33,14 +33,14 @@ protected function execute(InputInterface $input, OutputInterface $output)
 	$io->title('Configuration');
 
 	$fs = new Filesystem();
-	if(!$fs->exists(DB2S3_CONFIG)) {
-		$fs->touch(DB2S3_CONFIG);	
+	if(!$fs->exists(DBA_CONFIG)) {
+		$fs->touch(DBA_CONFIG);
 	}
 
-	$conf = Yaml::parseFile(DB2S3_CONFIG);
+	$conf = Yaml::parseFile(DBA_CONFIG);
 	if(!$conf) {
 		$conf = [
-			"version" => DB2S3_VERSION,
+			"version" => DBA_VERSION,
 			"targets" => [],
 			"archiveurs" => [],
 		];
@@ -87,7 +87,7 @@ protected function execute(InputInterface $input, OutputInterface $output)
 
 	$yaml = Yaml::dump($conf);
 
-	file_put_contents(DB2S3_CONFIG, $yaml);
+	file_put_contents(DBA_CONFIG, $yaml);
 	
 
 

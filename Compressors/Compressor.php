@@ -1,7 +1,7 @@
 <?php
-namespace DB2S3\Compressors;
+namespace DBA\Compressors;
 
-use DB2S3\APlugin;
+use DBA\APlugin;
 
 abstract class Compressor extends APlugin implements ICompressor
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace DB2S3\Archivers;
+namespace DBA\Archivers;
 
 use Aws\Credentials\Credentials;
 use Aws\S3\MultipartUploader;

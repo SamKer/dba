@@ -1,6 +1,6 @@
 <?php
 
-namespace DB2S3\Compressors;
+namespace DBA\Compressors;
 
 interface ICompressor
 {

@@ -1,7 +1,7 @@
 <?php
-namespace DB2S3\Archivers;
+namespace DBA\Archivers;
 
-use DB2S3\APlugin;
+use DBA\APlugin;
 
 abstract class Archiver extends APlugin implements IArchiver
 {

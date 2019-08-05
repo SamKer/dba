@@ -1,6 +1,6 @@
 <?php
 
-namespace DB2S3;
+namespace DBA;
 
 use Symfony\Component\Yaml\Yaml;
 
@@ -13,7 +13,7 @@ class Config
 
     public function __construct()
     {
-        $this->conf = Yaml::parseFile(DB2S3_CONFIG);
+        $this->conf = Yaml::parseFile(DBA_CONFIG);
         if (!$this->conf) {
             throw new \Exception("aucun fichier de conf n'a été créé");
         }
@@ -57,7 +57,7 @@ class Config
                 throw new \Exception("no archiver defined for $key");
             }
             if (!isset($conf['compressor'])) {
-                $conf['compressor'] = ['class' => "\\DB2S3\\Compressors\\Raw"];
+                $conf['compressor'] = ['class' => "\\DBA\\Compressors\\Raw"];
             }
             $conf['dumper'] = new $conf['dumper']['class']($key, $conf['dumper'], $io);
             $conf['compressor'] = new $conf['compressor']['class']($key, $conf['compressor'], $io);

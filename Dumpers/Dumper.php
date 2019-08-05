@@ -1,6 +1,6 @@
 <?php
-namespace DB2S3\Dumpers;
-use DB2S3\APlugin;
+namespace DBA\Dumpers;
+use DBA\APlugin;
 
 abstract class Dumper extends APlugin implements IDumper
 {

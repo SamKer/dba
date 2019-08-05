@@ -1,7 +1,7 @@
 <?php
 
 
-namespace DB2S3;
+namespace DBA;
 
 
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -66,5 +66,23 @@ abstract class APlugin implements IPlugin
      */
     protected function defineRequiredParams($params) {
         $this->requiredParams = $params;
+    }
+
+
+    /**
+     * get a readable size
+     * @param timestamp $t
+     */
+    protected function getHumanReadableSize($t) {
+        $t = (integer) $t;
+        if(0 < $t && $t <= 1000) {
+            return round($t,2) . " o";
+        } else if(1000 < $t && $t <= 1000000) {
+            return round(((integer) $t / 1000),2) . " Ko";
+        } else if(1000000 < $t && $t <= 1000000000) {
+            return round(($t / 1000000),2) . " Mo";
+        } else {
+            return round(($t / 1000000000),2) . " Go";
+        }
     }
 }

@@ -10,7 +10,7 @@ targets:
                 # the dumper config
                 dumper:
                         # dumper class, extends ADumper
-                        class: "\\DB2S3\\Dumpers\\Pgsql"
+                        class: "\\DBA\\Dumpers\\Pgsql"
                         # host target
                         dbhost: "localhost"
                         # port target
@@ -25,11 +25,11 @@ targets:
               # compressor default to null
                 compressor:
                         # compressor class, dextends ACompressor
-                        class: "\\DB2S3\\Compressors\\Zip"
+                        class: "\\DBA\\Compressors\\Zip"
                        #archiver, put export to
                 archiver:
                         # archiver class, extends AArchiver
-                        class: "\\DB2S3\\Archivers\\S3"
+                        class: "\\DBA\\Archivers\\S3"
                         # endpoint
                         endpoint: "https://scality-s3.gendarmerie.fr"
                         # keyname

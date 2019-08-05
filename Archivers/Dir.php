@@ -1,6 +1,6 @@
 <?php
 
-namespace DB2S3\Archivers;
+namespace DBA\Archivers;
 
 
 use Symfony\Component\Filesystem\Filesystem;
@@ -85,7 +85,7 @@ class Dir extends Archiver
             $list[] = [
                 "date" => (new \DateTime())->setTimestamp($file->getATime())->format("Y-m-d H:i:s"),
                 "file" => $file->getBasename(),
-                "size" => ((integer)$file->getSize() / 1000 / 1000) . " Mo"
+                "size" => $this->getHumanReadableSize($file->getSize())
             ];
         }
 

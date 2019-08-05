@@ -1,5 +1,5 @@
 <?php
-namespace DB2S3\Archivers;
+namespace DBA\Archivers;
 Interface IArchiver 
 {
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace DB2S3\Dumpers;
+namespace DBA\Dumpers;
 
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
