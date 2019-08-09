@@ -1,5 +1,5 @@
 {
-    "name": "stc/db2s3",
+    "name": "stc/dba",
     "description": "Archiver vos bases vers Scality",
     "license": "MIT",
     "authors": [
