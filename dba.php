@@ -4,7 +4,7 @@ namespace DBA;
 require __DIR__.'/vendor/autoload.php';
 
 
-use DBA\Commands\GenerateConfig;
+//use DBA\Commands\GenerateConfig;
 use DBA\Commands\BaseArchive;
 use DBA\Commands\BaseList;
 use Symfony\Component\Console\Application;

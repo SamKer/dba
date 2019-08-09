@@ -35,7 +35,7 @@ targets:
 #### the dumpers
 
 - Mysql
-    - params
+    - dumper
         - class #\\class\\namespace
         - dbhost
         - dbport
@@ -43,7 +43,7 @@ targets:
         - dbuser
         - dbpassword
 - Pgsql
-    - params
+    - dumper
         - class #\\class\\namespace    
         - dbhost
         - dbport
@@ -54,18 +54,27 @@ targets:
 #### the compressors
 
 - Raw (default)
+    - compressor:
+        - class: "\\DBA\\Compressors\\Raw"
+               
 - Zip
-
+    - compressor:
+        - class: "\\DBA\\Compressors\\Raw"
 #### the archivers
   
 - S3
-    - params
+    - archiver:
         - class #\\class\\namespace    
         - endpoint # url s3
         - bucket # bucket name
         - secret # your secret key
         - keyname # your id name
 - Dir
-    - params
+    - archiver
         - class #\\class\\namespace    
         - directory # path to put file
+        
+        
+# save cron
+crontab -e & run /path/to/dba/dba bas:archive yourdatabaseconfigname 
+        
