@@ -4,7 +4,7 @@ stages:
 
 prod:
   stage: prod
-  image: hub.gendarmerie.fr/samir.keriou/php:gn-stretch
+  image: hub.gendarmerie.fr/samir.keriou/php:7.2
   when: always
   only:
     - master
@@ -15,7 +15,7 @@ prod:
 
 test:
   stage: test
-  image: hub.gendarmerie.fr/samir.keriou/php:gn-stretch
+  image: hub.gendarmerie.fr/samir.keriou/php:7.2
   when: always
   only:
     - develop
