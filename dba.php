@@ -11,7 +11,7 @@ use Symfony\Component\Console\Application;
 
 define("PROJECT_DIR", __DIR__ );
 define("DBA_CONFIG", __DIR__."/config.yml");
-define("DBA_VERSION", "1.0.0");
+define("DBA_VERSION", json_decode(file_get_contents('./composer.json'))->version);
 
 
 

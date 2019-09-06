@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-php dba.php "$@"
+php $0.php "$@"

@@ -76,5 +76,6 @@ targets:
         
         
 # save cron
-crontab -e & run /path/to/dba/dba bas:archive yourdatabaseconfigname 
+crontab -e -u ownerfilesdba 
+0 1 * * */path/to/dba/dba bas:archive yourdatabaseconfigname 
         
