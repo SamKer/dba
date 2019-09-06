@@ -1,0 +1,25 @@
+stages:
+  - test
+  - prod
+
+prod:
+  stage: prod
+  image: hub.gendarmerie.fr/samir.keriou/php:gn-stretch
+  when: always
+  only:
+    - master
+  script:
+    - composer install --production
+    - zip -ru ./dba-$(dba --version | cut -d' ' -f2).zip ./
+    - curl -# -o /dev/null -k -L --upload-file ./dba-$(dba --version | cut -d' ' -f2).zip -u ${NEXUS_AUTH} -X PUT ${NEXUS_URL}/
+
+test:
+  stage: prod
+  image: hub.gendarmerie.fr/samir.keriou/php:gn-stretch
+  when: always
+  only:
+    - develop
+  script:
+    - composer install --production
+    - zip -ru ./dba-$(dba --version | cut -d' ' -f2).zip ./
+    - echo "zip created : dba-$(dba --version | cut -d' ' -f2).zip"
