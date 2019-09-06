@@ -22,4 +22,5 @@ test:
   script:
     - composer install --production
     - zip -ru ./dba-$(dba --version | cut -d' ' -f2).zip ./
-    - echo "zip created : dba-$(dba --version | cut -d' ' -f2).zip"
+    - echo "Test"
+#    - echo "zip created : dba-$(dba --version | cut -d' ' -f2).zip"
