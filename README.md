@@ -6,13 +6,14 @@ simple tool to archive database
 - plugins for dump, compress or upload
 
 ## installation
-
+vie git
+```bash
 git clone http://omnibus-pic.gendarmerie.fr/gitlab/stc/dba.git
-
 cd dba
 cp config.template.yml config.yml
 composer install
 ./dba
+```
 
 ### define config
 
@@ -76,6 +77,13 @@ targets:
         
         
 # save cron
-crontab -e -u ownerfilesdba 
-0 1 * * */path/to/dba/dba bas:archive yourdatabaseconfigname 
+```bash
+crontab -e -u ownerfilesdba
+```
+
+```crontab 
+0 1 * * */path/to/dba/dba bas:archive yourdatabaseconfigname
+```
+
+``` 
         
