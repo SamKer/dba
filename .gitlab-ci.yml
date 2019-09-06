@@ -14,7 +14,7 @@ prod:
     - curl -# -o /dev/null -k -L --upload-file ./dba-$(dba --version | cut -d' ' -f2).zip -u ${NEXUS_AUTH} -X PUT ${NEXUS_URL}/
 
 test:
-  stage: prod
+  stage: test
   image: hub.gendarmerie.fr/samir.keriou/php:gn-stretch
   when: always
   only:
