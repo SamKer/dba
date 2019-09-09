@@ -36,7 +36,7 @@ targets:
 
 - Mysql
     - dumper
-        - class #\\class\\namespace
+        - class #\\DBA\\Dumper\Mysql
         - dbhost
         - dbport
         - dbname
@@ -44,12 +44,16 @@ targets:
         - dbpassword
 - Pgsql
     - dumper
-        - class #\\class\\namespace    
+        - class #\\DBA\\Dumpers\Pgsql    
         - dbhost
         - dbport
         - dbname
         - dbuser
         - dbpassword
+- Skip
+    - dumper
+        - class #\\DBA\\Dumpers\Skip
+        - localfile 
 
 #### the compressors
 
