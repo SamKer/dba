@@ -77,18 +77,30 @@ class Dir extends Archiver
      */
     public function list($target = false)
     {
+        $nlast = $this->getConfig()['nlast'];
         $list = [];
 
         $finder = new Finder();
         $files = $finder->files()->in($this->config['directory'])->contains($this->target);
+        $i = 1;
         foreach ($files as $file) {
-            $list[] = [
-                "date" => (new \DateTime())->setTimestamp($file->getATime())->format("Y-m-d H:i:s"),
-                "file" => $file->getBasename(),
-                "size" => $this->getHumanReadableSize($file->getSize())
-            ];
+            dump("$i <=> $nlast");
+            if($i > $nlast) {
+
+                //suppression old
+                $this->delete($file->getBasename());
+            } else {
+                $date = (new \DateTime())->setTimestamp($file->getATime())->format("Y-m-d H:i:s");
+                $list[$date] = [
+                    "date" => $date,
+                    "file" => $file->getBasename(),
+                    "size" => $this->getHumanReadableSize($file->getSize())
+                ];
+            }
+            $i++;
         }
 
+        krsort($list);
         return $list;
     }
 
@@ -99,6 +111,10 @@ class Dir extends Archiver
      */
     public function delete($filename)
     {
+        $dest = $this->config['directory'] . "/" . $filename;
+        if(!unlink($dest)) {
+            throw new \Exception("delete $filename failed");
+        }
 
     }
 
