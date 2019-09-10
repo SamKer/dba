@@ -1,6 +1,6 @@
 {
     "name": "stc/dba",
-    "version": "1.0.1",
+    "version": "1.1.0",
     "description": "Archiver vos bases vers Scality",
     "license": "MIT",
     "authors": [
