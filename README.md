@@ -6,7 +6,7 @@ simple tool to archive database
 - plugins for dump, compress or upload
 
 ## installation
-vie git
+### via git
 ```bash
 git clone http://omnibus-pic.gendarmerie.fr/gitlab/stc/dba.git
 cd dba
@@ -14,6 +14,8 @@ cp config.template.yml config.yml
 composer install
 ./dba
 ```
+### via nexus
+curl http://registry-pic.gendarmerie.fr/repository/binaries-stc/dba/dba-1.0.1.zip
 
 ### define config
 
@@ -75,6 +77,10 @@ targets:
         - class #\\class\\namespace    
         - directory # path to put file
         
+      
+# tests
+cd /pat/to/dba
+      
         
 # save cron
 ```bash
