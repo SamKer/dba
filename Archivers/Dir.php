@@ -3,6 +3,7 @@
 namespace DBA\Archivers;
 
 
+use DBA\Config;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 
@@ -57,7 +58,6 @@ class Dir extends Archiver
                 $this->delete($v['file']);
             }
         }
-
         return true;
     }
 
@@ -69,7 +69,7 @@ class Dir extends Archiver
     public function get($filename)
     {
         $orig = $this->config['directory'] . "/" . $filename;
-        $dest = $this->config['tmp_dir'] . "/" . $filename;
+        $dest = Config::get('tmp_dir') . "/" . $filename;
         $fs = new Filesystem();
         if (!$fs->exists($orig)) {
             throw new \Exception("no archive found at $orig");
@@ -90,7 +90,9 @@ class Dir extends Archiver
      */
     public function last($target)
     {
-
+        $list = $this->list();
+        $last = array_shift($list);
+        return $this->get($last['file']);
     }
 
     /**
@@ -111,7 +113,6 @@ class Dir extends Archiver
                     "size" => $this->getHumanReadableSize($file->getSize())
                 ];
         }
-
         krsort($list);
         return $list;
     }
