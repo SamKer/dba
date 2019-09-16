@@ -37,4 +37,5 @@ Interface IArchiver
 	 * @return boolean true on success
 	 */
 	public function delete($filename);
+
 }
