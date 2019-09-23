@@ -121,7 +121,17 @@ class S3 extends Archiver
         $this->io->success("base archived to {$url}");
 
         //TODO purge old file !! important
-
+        //purge if too much files
+        $list = $this->list();
+//        dump($list);die;
+//        $nlast = $this->getConfig()['nlast'];
+//        if(count($list) > $nlast) {
+//            $toPurge = array_slice($list, $nlast- count($list));
+//            foreach ($toPurge as $k => $v) {
+//                $this->io->success("delete old file {$v['file']}");
+//                $this->delete($v['file']);
+//            }
+//        }
         return true;
 
 
