@@ -6,6 +6,7 @@ require __DIR__.'/vendor/autoload.php';
 
 //use DBA\Commands\GenerateConfig;
 use DBA\Commands\BaseArchive;
+use DBA\Commands\BaseLast;
 use DBA\Commands\BaseList;
 use Symfony\Component\Console\Application;
 
@@ -23,5 +24,6 @@ $application = new Application('DBA', DBA_VERSION);
 //$application->add(new GenerateConfig());
 $application->add(new BaseArchive());
 $application->add(new BaseList());
+$application->add(new BaseLast());
 $application->run();
 

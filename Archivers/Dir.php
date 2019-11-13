@@ -3,6 +3,7 @@
 namespace DBA\Archivers;
 
 
+use DBA\Config;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 
@@ -46,6 +47,17 @@ class Dir extends Archiver
             throw new \Exception("archiver failed to put file to $dest");
         }
         $this->io->success("Uploaded {$file} to {$dest}");
+
+        //purge if too much files
+        $list = $this->list();
+        $nlast = $this->getConfig()['nlast'];
+        if(count($list) > $nlast) {
+            $toPurge = array_slice($list, $nlast- count($list));
+            foreach ($toPurge as $k => $v) {
+                $this->io->success("delete old file {$v['file']}");
+                $this->delete($v['file']);
+            }
+        }
         return true;
     }
 
@@ -56,7 +68,18 @@ class Dir extends Archiver
      */
     public function get($filename)
     {
-
+        $orig = $this->config['directory'] . "/" . $filename;
+        $dest = Config::get('tmp_dir') . "/" . $filename;
+        $fs = new Filesystem();
+        if (!$fs->exists($orig)) {
+            throw new \Exception("no archive found at $orig");
+        }
+        $fs->copy($orig, $dest);
+        if (!$fs->exists($dest)) {
+            throw new \Exception("archiver failed to download file to $dest");
+        }
+        $this->io->success("downloaded {$filename} to {$dest}");
+        return true;
     }
 
 
@@ -67,7 +90,9 @@ class Dir extends Archiver
      */
     public function last($target)
     {
-
+        $list = $this->list();
+        $last = array_shift($list);
+        return $this->get($last['file']);
     }
 
     /**
@@ -77,32 +102,23 @@ class Dir extends Archiver
      */
     public function list($target = false)
     {
-        $nlast = $this->getConfig()['nlast'];
         $list = [];
-
         $finder = new Finder();
         $files = $finder->files()->in($this->config['directory'])->contains($this->target);
-        $i = 1;
         foreach ($files as $file) {
-            dump("$i <=> $nlast");
-            if($i > $nlast) {
-
-                //suppression old
-                $this->delete($file->getBasename());
-            } else {
                 $date = (new \DateTime())->setTimestamp($file->getATime())->format("Y-m-d H:i:s");
                 $list[$date] = [
                     "date" => $date,
                     "file" => $file->getBasename(),
                     "size" => $this->getHumanReadableSize($file->getSize())
                 ];
-            }
-            $i++;
         }
-
         krsort($list);
         return $list;
     }
+
+
+
 
     /**
      * Delete archive
@@ -115,7 +131,7 @@ class Dir extends Archiver
         if(!unlink($dest)) {
             throw new \Exception("delete $filename failed");
         }
-
+        return true;
     }
 
 }

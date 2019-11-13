@@ -119,6 +119,19 @@ class S3 extends Archiver
         //$url = $result['Location'];
         $url = $this->config['endpoint'] . "/" . $this->config['bucket'] . "/" . $name;
         $this->io->success("base archived to {$url}");
+
+        //TODO purge old file !! important
+        //purge if too much files
+        $list = $this->list();
+//        dump($list);die;
+//        $nlast = $this->getConfig()['nlast'];
+//        if(count($list) > $nlast) {
+//            $toPurge = array_slice($list, $nlast- count($list));
+//            foreach ($toPurge as $k => $v) {
+//                $this->io->success("delete old file {$v['file']}");
+//                $this->delete($v['file']);
+//            }
+//        }
         return true;
 
 
@@ -131,7 +144,8 @@ class S3 extends Archiver
      */
     public function get($filename)
     {
-
+        //TODO
+        throw new \Exception("method get not implemented yet");
     }
 
 
@@ -142,7 +156,8 @@ class S3 extends Archiver
      */
     public function last($target)
     {
-
+        //TODO
+        throw new \Exception("method last not implemented yet");
     }
 
     /**
@@ -172,8 +187,6 @@ class S3 extends Archiver
                     ];
                 }
             }
-
-
         }
         rsort($list);
         return $list;
@@ -186,7 +199,8 @@ class S3 extends Archiver
      */
     public function delete($filename)
     {
-
+        //TODO
+        throw new \Exception("method delete not implemented yet");
     }
 
 }
