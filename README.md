@@ -6,7 +6,12 @@ simple tool to archive database
 - plugins for dump, compress or upload
 
 ## installation
+<<<<<<< HEAD
 ### via git
+=======
+
+### depuis git
+>>>>>>> 235fc53d658de9a9e4c83b04a0eae6b6799d71d9
 ```bash
 git clone http://omnibus-pic.gendarmerie.fr/gitlab/stc/dba.git
 cd dba
@@ -14,8 +19,20 @@ cp config.template.yml config.yml
 composer install
 ./dba
 ```
+<<<<<<< HEAD
 ### via nexus
 curl http://registry-pic.gendarmerie.fr/repository/binaries-stc/dba/dba-1.0.1.zip
+=======
+
+### depuis nexus
+```bash
+curl http://nexus-pic.gendarmerie.fr/repository/binaries-stc/dba/dba-1.0.1.zip
+unzip dba-1.0.1.zip
+cd dba
+./dba
+```
+
+>>>>>>> 235fc53d658de9a9e4c83b04a0eae6b6799d71d9
 
 ### define config
 
@@ -36,7 +53,7 @@ targets:
 ```
 
 #### the dumpers
-
+```yml
 - Mysql
     - dumper
         - class #\\DBA\\Dumper\Mysql
@@ -59,7 +76,7 @@ targets:
         - localfile 
 
 #### the compressors
-
+```yml
 - Raw (default)
     - compressor:
         - class: "\\DBA\\Compressors\\Raw"
@@ -67,8 +84,10 @@ targets:
 - Zip
     - compressor:
         - class: "\\DBA\\Compressors\\Raw"
+```
+
 #### the archivers
-  
+  ```yml
 - S3
     - archiver:
         - class #\\class\\namespace    
@@ -80,6 +99,7 @@ targets:
     - archiver
         - class #\\class\\namespace    
         - directory # path to put file
+<<<<<<< HEAD
         
       
 # tests
@@ -96,4 +116,16 @@ crontab -e -u ownerfilesdba
 ```
 
 ``` 
+=======
+```       
+        
+# save cron
+```yml
+crontab -e -u ownerfilesdba 
+```
+
+```crontab
+0 1 * * */path/to/dba/dba bas:archive yourdatabaseconfigname
+```
+>>>>>>> 235fc53d658de9a9e4c83b04a0eae6b6799d71d9
         

@@ -9,6 +9,7 @@ targets:
         name_config:
                 # the dumper config
                 dumper:
+                        # PGSQL
                         # dumper class, extends ADumper
                         class: "\\DBA\\Dumpers\\Pgsql"
                         # host target
@@ -21,6 +22,7 @@ targets:
                         dbuser: "dbuser"
                         #base password
                         dbpassword: "pwd"
+
 
               # compressor default to null
                 compressor:

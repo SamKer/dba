@@ -21,13 +21,13 @@ use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Console\Helper\Table;
 
-class BaseList extends Command
+class BaseLast extends Command
 {
 
 protected function configure()
     {
-        $this->setName("base:list")
-		->setDescription('list archives')
+        $this->setName("base:last")
+		->setDescription('get last archive')
 		->addArgument("target", InputArgument::REQUIRED, "target name", null)
             ;
     }
@@ -47,28 +47,10 @@ protected function execute(InputInterface $input, OutputInterface $output)
 	if(!$config) {
 		throw new \Exception("no config defined for $target");
 	}
-
+    //last from archiver
 	$archiver = $config['archiver'];
-
-
-	//list from archiver
-	$list = $archiver->list($target);
-
-
-	//tableau
-	$table = new Table($io);
-        $table
-            ->setHeaders(['Date', 'File', 'Size'])
-	        ->setRows(
-		    $list
-            )
-        ;
-        $table->render();
-
+	$archiver->last($target);
 
 	$io->writeln('---');
-	
-
-
 	}
 }
