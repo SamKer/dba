@@ -8,5 +8,5 @@ prod:
   only:
     - master
   script:
-    - composer install --production
+    - composer install --no-dev
     - zip -ru ./dba-$(dba --version | cut -d' ' -f2).zip ./
