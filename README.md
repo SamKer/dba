@@ -47,23 +47,23 @@ targets:
 - Mysql
     - dumper
         - class #\\DBA\\Dumper\Mysql
-        - dbhost
-        - dbport
-        - dbname
-        - dbuser
-        - dbpassword
+        - dbhost: #localhost
+        - dbport: #3306
+        - dbname: #database name
+        - dbuser: #database user
+        - dbpassword: #database password
 - Pgsql
     - dumper
-        - class #\\DBA\\Dumpers\Pgsql    
-        - dbhost
-        - dbport
-        - dbname
-        - dbuser
-        - dbpassword
+        - class: #\\DBA\\Dumpers\Pgsql    
+        - dbhost: # localhost
+        - dbport: #5432
+        - dbname: #database name
+        - dbuser: #database user
+        - dbpassword: #database password
 - Skip
     - dumper
         - class #\\DBA\\Dumpers\Skip
-        - localfile 
+        - localfile: /path/to/local/file 
 ```
 #### the compressors
 ```yml
@@ -85,10 +85,12 @@ targets:
         - bucket # bucket name
         - secret # your secret key
         - keyname # your id name
+	- nlast # maximum entry saved, older is deleted
 - Dir
     - archiver
         - class #\\class\\namespace    
         - directory # path to put file
+	- nlast: #maximum entry saved, older is deleted
 ```        
       
         
