@@ -46,9 +46,10 @@ class Config
 
     static public function getTarget($key, $io = false)
     {
-        $t = self::get('targets');
+	    $t = self::get('targets');
         if (isset($t[$key])) {
-            $conf = $t[$key];
+		$conf = $t[$key];
+		$conf['target'] = $key;
             if (!isset($conf['dumper'])) {
                 throw new \Exception("no dumper defined for $key");
             }
@@ -58,7 +59,13 @@ class Config
             }
             if (!isset($conf['compressor'])) {
                 $conf['compressor'] = ['class' => "\\DBA\\Compressors\\Raw"];
-            }
+	    }
+
+
+	    $conf['dumper']['target'] = $key;
+	    $conf['compressor']['target'] = $key;
+	    $conf['archiver']['target'] = $key;
+
             $conf['dumper'] = new $conf['dumper']['class']($key, $conf['dumper'], $io);
             $conf['compressor'] = new $conf['compressor']['class']($key, $conf['compressor'], $io);
             $conf['archiver'] = new $conf['archiver']['class']($key, $conf['archiver'], $io);
