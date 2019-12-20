@@ -24,7 +24,6 @@ cd dba
 ./dba
 ```
 
-
 ### define config
 
 #### database target
@@ -65,7 +64,7 @@ targets:
     - dumper
         - class #\\DBA\\Dumpers\Skip
         - localfile 
-
+```
 #### the compressors
 ```yml
 - Raw (default)
@@ -90,14 +89,17 @@ targets:
     - archiver
         - class #\\class\\namespace    
         - directory # path to put file
-```       
+```        
+      
         
 # save cron
-```yml
-crontab -e -u ownerfilesdba 
+```bash
+crontab -e -u ownerfilesdba
 ```
 
-```crontab
+```crontab 
 0 1 * * */path/to/dba/dba bas:archive yourdatabaseconfigname
 ```
+
+        
         
