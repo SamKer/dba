@@ -142,10 +142,18 @@ class S3 extends Archiver
      * @param string $filename
      * @return string $file
      */
-    public function get($filename)
+    public function get($filename, $saveTo)
     {
-        //TODO
-        throw new \Exception("method get not implemented yet");
+	    $saveTo = $saveTo.'/'.$filename;
+	    $this->client->getObject(array(
+    		'Bucket' => $this->config['bucket'],
+    		'Key'    => $filename,
+    		'SaveAs' => $saveTo
+	));
+	if(file_exists($saveTo)) {
+		throw new \Exception("donwload fail");
+	}
+	return true;
     }
 
 
@@ -154,10 +162,12 @@ class S3 extends Archiver
      * @param string $target
      * @return string $filename
      */
-    public function last($target)
+    public function last($target, $saveTo)
     {
         //TODO
-        throw new \Exception("method last not implemented yet");
+	$list = $this->list($target);
+	$filename = $list[0]['file'];
+	$f = $this->get($filename, $saveTo);
     }
 
     /**
