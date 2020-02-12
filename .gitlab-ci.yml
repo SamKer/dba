@@ -8,7 +8,7 @@ prod:
   only:
     - master
   script:
-    - project=dba-$(dba --version | cut -d' ' -f2)
+    - project=dba-$(./dba --version | cut -d' ' -f2)
     - archive=/tmp/$project.tar.gz
     - composer install --no-dev
     - cd ../
