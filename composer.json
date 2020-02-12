@@ -27,7 +27,7 @@
         "ssl": {
             "verify_peer": "false"
         }
-    }
+    },
     "config": {
 	    "secure-http": false
     }	    
