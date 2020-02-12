@@ -27,14 +27,7 @@
         "ssl": {
             "verify_peer": "false"
         }
-    },
-    "repositories": {
-        "pic-prod": {
-             "type": "composer",
-             "url": "http://nexus-pic.gendarmerie.fr/repository/composer-group/"
-        },
-	"packagist": false
-    },
+    }
     "config": {
 	    "secure-http": false
     }	    
