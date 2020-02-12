@@ -51,7 +51,8 @@ class S3 extends Archiver
             'http' => [
                 'connect_timeout' => 0,
                 //                'verify'=> "/home/samir.keriou/ScalityCa.crt"
-            ]
+            ],
+            ''
         ]);
 	    }
 
@@ -70,7 +71,7 @@ class S3 extends Archiver
             'Bucket' => $this->config['bucket'],
             'Key' => $name,
             'StorageClass' => 'REDUCED_REDUNDANCY',
-            'ACL' => 'public-read',
+            'ACL' => 'private',
             'Metadata' => [
                 'type' => 'posgresql',
                 'format' => 'raw'

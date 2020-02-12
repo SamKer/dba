@@ -8,5 +8,14 @@ prod:
   only:
     - master
   script:
+<<<<<<< HEAD
     - composer install --no-dev
     - zip -ru ./dba-$(dba --version | cut -d' ' -f2).zip ./
+=======
+    - project=dba-$(dba --version | cut -d' ' -f2)
+    - archive=/tmp/$project.tar.gz
+    - composer install --no-dev
+    - cd ../
+    - tar czf $archive dba --warning=no-file-changed
+    - curl -# -o output -k -L --upload-file $archive -u jenkins:jenkins -X PUT http://nexus-pic.gendarmerie.fr/repository/binaries-stc/dba/
+>>>>>>> develop
