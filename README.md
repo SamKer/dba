@@ -9,18 +9,10 @@ simple tool to archive database
 
 ### depuis git
 ```bash
-git clone http://omnibus-pic.gendarmerie.fr/gitlab/stc/dba.git
+git clone https://github.com/samker/dba.git
 cd dba
 cp config.template.yml config.yml
 composer install
-./dba
-```
-
-### depuis nexus
-```bash
-curl http://nexus-pic.gendarmerie.fr/repository/binaries-stc/dba/dba-1.0.1.zip
-unzip dba-1.0.1.zip
-cd dba
 ./dba
 ```
 

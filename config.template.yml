@@ -33,7 +33,7 @@ targets:
                         # archiver class, extends AArchiver
                         class: "\\DBA\\Archivers\\S3"
                         # endpoint
-                        endpoint: "https://scality-s3.gendarmerie.fr"
+                        endpoint: "https://s3.amazone.com"
                         # keyname
                         keyname: "keyname id"
                         # secret
