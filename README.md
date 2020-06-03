@@ -9,7 +9,7 @@ simple tool to archive database
 
 dépendences
 ```bash
-sudo apt install php7.2-cli php7.2-zip
+sudo apt install curl php7.2-cli php7.2-zip
 ```
 
 pour l'archivage sur scality
@@ -30,7 +30,9 @@ update-ca-certificates
 curl https://scality-s3.gendarmerie.fr
 ```
 si plus d'erreur ssl alors ok
-### depuis git
+
+
+### source from git
 ```bash
 git clone https://github.com/samker/dba.git
 cd dba
@@ -38,6 +40,17 @@ cp config.template.yml config.yml
 composer install
 ./dba
 ```
+
+### source from nexus
+```bash
+sudo su
+cd /var/www/
+curl http://nexus-pic.gendarmerie.fr/repository/binaries-stc/dba/dba-1.2.1.tar.gz -o dba-1.2.1.tar.gz
+tar -xvzf dba-1.2.1.tar.gz
+rm dba-1.2.1.tar.gz
+cd dba/
+```
+
 
 ### define config
 
