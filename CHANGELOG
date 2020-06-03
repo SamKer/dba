@@ -1,4 +1,7 @@
 # versions
+v 1.3.0
+- ssl conf in user.ini
+- playbook ansible
 v 1.2.1
 - fix acl private
 ---

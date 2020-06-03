@@ -14,3 +14,5 @@ prod:
     - cd ../
     - tar czf $archive dba --warning=no-file-changed
     - curl -# -o output -k -L --upload-file $archive -u jenkins:jenkins -X PUT http://nexus-pic.gendarmerie.fr/repository/binaries-stc/dba/
+    - echo "$project" > dba-latest
+    - curl -# -o output -k -L --upload-file ./dba-latest -u jenkins:jenkins -X PUT http://nexus-pic.gendarmerie.fr/repository/binaries-stc/dba/

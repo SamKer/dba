@@ -7,6 +7,29 @@ simple tool to archive database
 
 ## installation
 
+dépendences
+```bash
+sudo apt install php7.2-cli php7.2-zip
+```
+
+pour l'archivage sur scality
+add caroot scality if error
+```bash
+curl https://scality-s3.gendarmerie.fr
+```
+if error ssl
+```bash
+echo quit | openssl s_client -showcerts -servername scality-s3.gendarmerie.fr -connect scality-s3.gendarmerie.fr:443 > ScalityCa.crt
+curl https://scality-s3.gendarmerie.fr --cacert ScalityCa.crt
+```
+si ok alors on le pose dans la ca global list
+```bash
+cp ScalityCa.crt /usr/share/ca-certificates/
+echo "ScalityCa.crt" >> /etc/ca-certificates.conf
+update-ca-certificates
+curl https://scality-s3.gendarmerie.fr
+```
+si plus d'erreur ssl alors ok
 ### depuis git
 ```bash
 git clone https://github.com/samker/dba.git

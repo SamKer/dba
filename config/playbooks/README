@@ -1,0 +1,15 @@
+# DEPLOY 
+
+## plugin
+
+installer sur une vm
+
+
+```bash
+ansible-playbook install.yaml --extra-vars "vm=server-name"
+ ```
+ 
+mettre à jour
+```bash
+ansible-playbook update.yaml --extra-vars "vm=server-name"
+```

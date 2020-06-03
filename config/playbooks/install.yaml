@@ -1,0 +1,32 @@
+---
+- name: "Install DBA on VM"
+  hosts: servers
+  become: true
+  vars:
+    nexus_url: "http://nexus-pic.gendarmerie.fr/repository/binaries-stc/dba"
+    version: "latest"
+    vm: "no"
+    apps_path: "/opt"
+  tasks:
+    - debug: var=ansible_hostname
+    - name: "Get Archive"
+      get_url:
+        dest: "{{ apps_path }}"
+        url: "{{ nexus_url }}/dba-{{ version }}.tar.gz"
+    - name: "UnTar Archive"
+      unarchive:
+        dest: "{{ apps_path }}"
+        src: "{{ apps_path }}/{{ plugin_name }}-{{ plugin_version }}.tar.gz"
+        #remote_src: "yes"
+        copy: "no" # erreur si manquant, car par défaut à yes, et cherche l'archive localement
+    - name: "Purge archive"
+      file:
+        path: "{{ apps_path }}/{{ plugin_name }}-{{ plugin_version }}.tar.gz"
+        state: "absent"
+    - name: "Activate Plugin"
+      command: "partage app:enable {{ plugin_name }}"
+      when:  (enable == 'yes' and ansible_hostname == primary_server)
+    - name: "Update Plugin"
+      #command: "partage app:update {{ plugin_name }}"
+      command: "partage upgrade"
+      when:  (update == "yes" and ansible_hostname == primary_server)
