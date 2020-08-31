@@ -47,10 +47,14 @@ class S3 extends Archiver
             'use_path_style_endpoint' => true,
             //            'debug' => true,
             //            'stats' => true,
+//            'ssl.certificate_authority' => '/tmp/ScalityCa.crt',
+//            'ssl.certificate_authority' => false,
             'http' => [
                 'connect_timeout' => 0,
-                //                'verify'=> "/home/samir.keriou/ScalityCa.crt"
-            ]
+//              'verify'=> "/tmp/ScalityCa.crt"
+//                'verify'=> false
+            ],
+//                'client_defaults' => ['verify' => false]
         ]);
 
 
