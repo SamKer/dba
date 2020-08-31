@@ -88,6 +88,15 @@ targets:
         - dbname: #database name
         - dbuser: #database user
         - dbpassword: #database password
+- Mongo
+    - dumper
+        - class: #\\DBA\\Dumpers\Mongo    
+        - dbhost: # localhost
+        - dbport: #5432
+        - dbname: #database name
+        - dbuser: #database user
+        - dbauthentication: # db user authentication
+        - dbpassword: #database password
 - Skip
     - dumper
         - class #\\DBA\\Dumpers\Skip
@@ -113,12 +122,12 @@ targets:
         - bucket # bucket name
         - secret # your secret key
         - keyname # your id name
-	- nlast # maximum entry saved, older is deleted
+	    - nlast # maximum entry saved, older is deleted
 - Dir
     - archiver
         - class #\\class\\namespace    
         - directory # path to put file
-	- nlast: #maximum entry saved, older is deleted
+	    - nlast: #maximum entry saved, older is deleted
 ```        
       
         
@@ -128,7 +137,7 @@ crontab -e -u ownerfilesdba
 ```
 
 ```crontab 
-0 1 * * */path/to/dba/dba bas:archive yourdatabaseconfigname
+0 1 * * */path/to/dba/dba base:archive yourdatabaseconfigname
 ```
 
         
