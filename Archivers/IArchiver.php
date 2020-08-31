@@ -13,16 +13,18 @@ Interface IArchiver
 	/**
 	 * Get file by name
 	 * @param string $filename
+	 * @param string $saveTo
 	 * @return string $file
 	 */
-	public function get($filename);
+	public function get($filename, $saveTo);
 
 	/**
 	 * Get Last Archive
 	 * @param string $target
+	 * @param string $saveTo
 	 * @return string $file
 	 */
-	public function last($target);
+	public function last($target, $saveTo);
 
 	/**
 	 * Get All archive for target

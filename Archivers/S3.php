@@ -20,7 +20,7 @@ class S3 extends Archiver
             "endpoint",
             "keyname",
             "secret",
-            "bucket"
+	    "bucket",
         ];
     }
 
@@ -37,7 +37,8 @@ class S3 extends Archiver
 
     private function createConnexion()
     {
-        $credentials = new Credentials($this->config['keyname'], $this->config['secret']);
+	    if(!$this->client) {
+	    $credentials = new Credentials($this->config['keyname'], $this->config['secret']);
         $this->client = new \Aws\S3\S3Client([
             'version' => 'latest',
             'region' => 'eu-west-1',
@@ -47,16 +48,13 @@ class S3 extends Archiver
             'use_path_style_endpoint' => true,
             //            'debug' => true,
             //            'stats' => true,
-//            'ssl.certificate_authority' => '/tmp/ScalityCa.crt',
-//            'ssl.certificate_authority' => false,
             'http' => [
                 'connect_timeout' => 0,
-//              'verify'=> "/tmp/ScalityCa.crt"
-//                'verify'=> false
+                //                'verify'=> "/home/samir.keriou/ScalityCa.crt"
             ],
-//                'client_defaults' => ['verify' => false]
+            ''
         ]);
-
+	    }
 
     }
 
@@ -73,7 +71,7 @@ class S3 extends Archiver
             'Bucket' => $this->config['bucket'],
             'Key' => $name,
             'StorageClass' => 'REDUCED_REDUNDANCY',
-            'ACL' => 'public-read',
+            'ACL' => 'private',
             'Metadata' => [
                 'type' => 'posgresql',
                 'format' => 'raw'
@@ -127,15 +125,14 @@ class S3 extends Archiver
         //TODO purge old file !! important
         //purge if too much files
         $list = $this->list();
-//        dump($list);die;
-//        $nlast = $this->getConfig()['nlast'];
-//        if(count($list) > $nlast) {
-//            $toPurge = array_slice($list, $nlast- count($list));
-//            foreach ($toPurge as $k => $v) {
-//                $this->io->success("delete old file {$v['file']}");
-//                $this->delete($v['file']);
-//            }
-//        }
+        $nlast = $this->getConfig()['nlast'];
+        if(count($list) > $nlast) {
+            $toPurge = array_slice($list, $nlast- count($list));
+	    foreach ($toPurge as $k => $v) {
+                $this->io->success("delete old file {$v['file']}");
+                $this->delete($v['file']);
+            }
+        }
         return true;
 
 
@@ -146,10 +143,18 @@ class S3 extends Archiver
      * @param string $filename
      * @return string $file
      */
-    public function get($filename)
+    public function get($filename, $saveTo)
     {
-        //TODO
-        throw new \Exception("method get not implemented yet");
+	    $saveTo = $saveTo.'/'.$filename;
+	    $this->client->getObject(array(
+    		'Bucket' => $this->config['bucket'],
+    		'Key'    => $filename,
+    		'SaveAs' => $saveTo
+	));
+	if(file_exists($saveTo)) {
+		throw new \Exception("donwload fail");
+	}
+	return true;
     }
 
 
@@ -158,10 +163,12 @@ class S3 extends Archiver
      * @param string $target
      * @return string $filename
      */
-    public function last($target)
+    public function last($target, $saveTo)
     {
         //TODO
-        throw new \Exception("method last not implemented yet");
+	$list = $this->list($target);
+	$filename = $list[0]['file'];
+	$f = $this->get($filename, $saveTo);
     }
 
     /**
@@ -170,24 +177,29 @@ class S3 extends Archiver
      * @return array $list
      */
     public function list($target = false)
+    
     {
-        $this->createConnexion();
+	    if(!$target) {
+		    $target = $this->config['target'];
+	    
+	    }
+
+$this->createConnexion();
         $results = $this->client->getPaginator('ListObjects', [
             'Bucket' => $this->config['bucket']
         ]);
         $list = [];
-
-        foreach ($results as $result) {
+	foreach ($results as $result) {
             if ($result['IsTruncated'] === true || (!isset($result['Contents']) || !is_array($result['Contents']))) {
                 $this->io->writeln("bucket " . $result['bucket'] . " is empty");
                 continue;
             }
-            foreach ($result['Contents'] as $object) {
+	    foreach ($result['Contents'] as $object) {
                 if (preg_match("#^" . $target . "_([0-9]{4}-[0-9]{2}-[0-9]{2}_[0-9]{6}.*)#", $object['Key'], $matches)) {
                     $list[$object['Key']] = [
                         'date' => $matches[1],
-                        'file' => $object['Key'],
-                        'size' => ((integer)$object['Size'] / 1000 / 1000) . " Mo"
+			'file' => $object['Key'],
+			'size' => $this->getHumanReadableSize($object['Size'])
                     ];
                 }
             }
@@ -203,8 +215,12 @@ class S3 extends Archiver
      */
     public function delete($filename)
     {
-        //TODO
-        throw new \Exception("method delete not implemented yet");
+	    $this->createConnexion();
+	    $this->client->deleteObject([
+		    "Bucket" => $this->config['bucket'],
+		    "Key"=> $filename
+	    ]);	    
+	    return true;
     }
 
 }

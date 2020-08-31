@@ -29,6 +29,7 @@ protected function configure()
         $this->setName("base:last")
 		->setDescription('get last archive')
 		->addArgument("target", InputArgument::REQUIRED, "target name", null)
+		->addArgument('saveto', InputArgument::OPTIONAL, 'save to', '/tmp/')
             ;
     }
 
@@ -41,6 +42,8 @@ protected function execute(InputInterface $input, OutputInterface $output)
 	if(!$target) {
 		throw new \Exception('no argument target');
 	}
+	$saveto = $input->getArgument('saveto');
+
         $io->title("Archives List $target");
 	
 	$config = Config::getTarget($target, $io);
@@ -49,7 +52,7 @@ protected function execute(InputInterface $input, OutputInterface $output)
 	}
     //last from archiver
 	$archiver = $config['archiver'];
-	$archiver->last($target);
+	$archiver->last($target, $saveto);
 
 	$io->writeln('---');
 	}

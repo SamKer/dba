@@ -1,0 +1,7 @@
+# versions
+v 1.2.1
+- fix acl private
+---
+v 1.2.0
+- add purge S3 archiver
+---
