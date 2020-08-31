@@ -1,4 +1,7 @@
 # versions
+v 1.3.0
+- Archiver Mongo
+- fix Dir nlast index
 v 1.2.1
 - fix acl private
 ---

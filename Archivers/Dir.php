@@ -64,12 +64,14 @@ class Dir extends Archiver
     /**
      * Get file by name
      * @param string $filename
+     * @param string $saveTo dir to save file
      * @return string $file
      */
-    public function get($filename)
+    public function get($filename, $saveTo)
     {
+        $dest = $saveTo.'/'.$filename;
         $orig = $this->config['directory'] . "/" . $filename;
-        $dest = Config::get('tmp_dir') . "/" . $filename;
+//        $dest = Config::get('tmp_dir') . "/" . $filename;
         $fs = new Filesystem();
         if (!$fs->exists($orig)) {
             throw new \Exception("no archive found at $orig");
@@ -86,13 +88,14 @@ class Dir extends Archiver
     /**
      * Get Last Archive
      * @param string $target
+     * @param string $saveTo
      * @return string $filename
      */
-    public function last($target)
+    public function last($target, $saveTo)
     {
         $list = $this->list();
         $last = array_shift($list);
-        return $this->get($last['file']);
+        return $this->get($last['file'], $saveTo);
     }
 
     /**
