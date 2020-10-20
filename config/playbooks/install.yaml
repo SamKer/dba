@@ -5,28 +5,50 @@
   vars:
     nexus_url: "http://nexus-pic.gendarmerie.fr/repository/binaries-stc/dba"
     version: "latest"
-    vm: "no"
-    apps_path: "/opt"
+    path: "/opt"
   tasks:
     - debug: var=ansible_hostname
+
+    - name: "Get FileName (latest version)"
+      when:  (version == "latest")
+      get_url:
+        dest: "{{ path }}"
+        url: "{{ nexus_url }}/dba-latest"
+
+    - name: "Get FileName (latest version)"
+      when: (version == "latest")
+      shell: /bin/cat {{ path }}/dba-latest
+      register: filename
+    - debug: var=filename
+
+    - name: "Get FileName (specific version)"
+      when:  (version != "latest")
+      shell: /bin/echo "dba-{{version}}"
+      register: filename
+
     - name: "Get Archive"
       get_url:
-        dest: "{{ apps_path }}"
-        url: "{{ nexus_url }}/dba-{{ version }}.tar.gz"
-    - name: "UnTar Archive"
-      unarchive:
-        dest: "{{ apps_path }}"
-        src: "{{ apps_path }}/{{ plugin_name }}-{{ plugin_version }}.tar.gz"
-        #remote_src: "yes"
-        copy: "no" # erreur si manquant, car par défaut à yes, et cherche l'archive localement
-    - name: "Purge archive"
-      file:
-        path: "{{ apps_path }}/{{ plugin_name }}-{{ plugin_version }}.tar.gz"
-        state: "absent"
-    - name: "Activate Plugin"
-      command: "partage app:enable {{ plugin_name }}"
-      when:  (enable == 'yes' and ansible_hostname == primary_server)
-    - name: "Update Plugin"
-      #command: "partage app:update {{ plugin_name }}"
-      command: "partage upgrade"
-      when:  (update == "yes" and ansible_hostname == primary_server)
+        dest: "{{ path }}"
+        url: "{{ nexus_url }}/{{filename}}.tar.gz"
+
+
+
+#    - name: "UnTar Archive"
+#      unarchive:
+#        dest: "{{ path }}"
+#        src: "{{ path }}/dba-{{ version }}.tar.gz"
+#        #remote_src: "yes"
+#        copy: "no" # erreur si manquant, car par défaut à yes, et cherche l'archive localement
+#    - name: "Purge archive"
+#      file:
+#        path: "{{ path }}/dba-{{ version }}.tar.gz"
+#        state: "absent"
+
+
+#    - name: "Activate Plugin"
+#      command: "partage app:enable {{ plugin_name }}"
+#      when:  (enable == 'yes' and ansible_hostname == primary_server)
+#    - name: "Update Plugin"
+#      #command: "partage app:update {{ plugin_name }}"
+#      command: "partage upgrade"
+#      when:  (update == "yes" and ansible_hostname == primary_server)
