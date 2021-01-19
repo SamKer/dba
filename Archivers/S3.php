@@ -223,4 +223,26 @@ $this->createConnexion();
 	    return true;
     }
 
+
+	public function listBuckets() {
+		$this->createConnexion();
+		//Listing all S3 Bucket
+		$buckets = $this->client->listBuckets();
+		$list = [];
+		foreach ($buckets['Buckets'] as $bucket) {
+    			$list[] = [$bucket['Name']];
+		}
+		return $list;
+	}
+
+
+public function listPolicy() {
+                $this->createConnexion();
+                //Listing all S3 Bucket
+		$response = $this->client->getBucketPolicy([
+			'Bucket' => $this->config['bucket']
+		]);
+		return $response->get('Policy');
+        }
+
 }
