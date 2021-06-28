@@ -25,4 +25,21 @@ class Zip extends Compressor
 		$this->io->success("file compressed to $fileC");
 		return $fileC;
 	}
+
+    /**
+     * Uncompress
+     * @param string $file
+     * @return string $file path uncompressed
+     */
+    public function uncompress($file)
+    {
+        $fileU = str_replace(".zip", "",$file);
+		$zip = new \ZipArchive();
+		if($zip->open($file)) {
+		 $zip->extractTo(dirname($fileU));
+		 $zip->close();
+        }
+		$this->io->success("file uncompressed to $fileU");
+		return $fileU;
+    }
 }

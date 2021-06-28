@@ -8,6 +8,7 @@ require __DIR__.'/vendor/autoload.php';
 use DBA\Commands\BaseArchive;
 use DBA\Commands\BaseLast;
 use DBA\Commands\BaseList;
+use DBA\Commands\BaseRestore;
 use DBA\Commands\BucketList;
 use DBA\Commands\BucketPolicy;
 use Symfony\Component\Console\Application;
@@ -27,7 +28,10 @@ $application = new Application('DBA', DBA_VERSION);
 $application->add(new BaseArchive());
 $application->add(new BaseList());
 $application->add(new BaseLast());
+$application->add(new BaseRestore());
+
 $application->add(new BucketList());
 $application->add(new BucketPolicy());
+
 $application->run();
 

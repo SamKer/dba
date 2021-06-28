@@ -1,9 +1,15 @@
-# versions
+### versions
+v 1.4.0
+- uncompress zip
+- restore psql
+- fix bug get:last
+---
 v 1.3.0
 - ssl conf in user.ini
 - playbook ansible
 - Archiver Mongo
 - fix Dir nlast index
+---
 v 1.2.1
 - fix acl private
 ---

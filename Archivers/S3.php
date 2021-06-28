@@ -21,7 +21,7 @@ class S3 extends Archiver
             "endpoint",
             "keyname",
             "secret",
-	    "bucket",
+            "bucket",
         ];
     }
 
@@ -38,24 +38,24 @@ class S3 extends Archiver
 
     private function createConnexion()
     {
-	    if(!$this->client) {
-	    $credentials = new Credentials($this->config['keyname'], $this->config['secret']);
-        $this->client = new \Aws\S3\S3Client([
-            'version' => 'latest',
-            'region' => 'eu-west-1',
-            'credentials' => $credentials,
-            'endpoint' => $this->config['endpoint'],
-            'force_path_style' => true,
-            'use_path_style_endpoint' => true,
-            //            'debug' => true,
-            //            'stats' => true,
-            'http' => [
-                'connect_timeout' => 0,
-                //                'verify'=> "/home/samir.keriou/ScalityCa.crt"
-            ],
-            ''
-        ]);
-	    }
+        if (!$this->client) {
+            $credentials = new Credentials($this->config['keyname'], $this->config['secret']);
+            $this->client = new \Aws\S3\S3Client([
+                'version' => 'latest',
+                'region' => 'eu-west-1',
+                'credentials' => $credentials,
+                'endpoint' => $this->config['endpoint'],
+                'force_path_style' => true,
+                'use_path_style_endpoint' => true,
+                //            'debug' => true,
+                //            'stats' => true,
+                'http' => [
+                    'connect_timeout' => 0,
+                    //                'verify'=> "/home/samir.keriou/ScalityCa.crt"
+                ],
+                ''
+            ]);
+        }
 
     }
 
@@ -127,9 +127,9 @@ class S3 extends Archiver
         //purge if too much files
         $list = $this->list();
         $nlast = $this->getConfig()['nlast'];
-        if(count($list) > $nlast) {
-            $toPurge = array_slice($list, $nlast- count($list));
-	    foreach ($toPurge as $k => $v) {
+        if (count($list) > $nlast) {
+            $toPurge = array_slice($list, $nlast - count($list));
+            foreach ($toPurge as $k => $v) {
                 $this->io->success("delete old file {$v['file']}");
                 $this->delete($v['file']);
             }
@@ -142,7 +142,9 @@ class S3 extends Archiver
     /**
      * Get file by name
      * @param string $filename
+     * @param $saveTo
      * @return string $file
+     * @throws \Exception
      */
     public function get($filename, $saveTo)
     {
@@ -157,27 +159,33 @@ class S3 extends Archiver
         while ($data = $result['Body']->read(1024)) {
             $r .= $data;
         }
-        if($r === '') {
+
+        if ($r === '') {
             throw new \Exception("file downloaded empty: $filename");
         }
-        if(!file_put_contents($saveTo, $r)) {
+        file_put_contents($saveTo, $r);
+        if (!file_exists($saveTo)) {
             throw new \Exception("donwload fail: $filename");
         }
-        return true;
+        $this->io->success("Getting file {$filename}");
+
+        return $saveTo;
     }
 
 
     /**
      * Get Last Archive
      * @param string $target
+     * @param $saveTo
      * @return string $filename
+     * @throws \Exception
      */
     public function last($target, $saveTo)
     {
-        //TODO
-	$list = $this->list($target);
-	$filename = $list[0]['file'];
-	$f = $this->get($filename, $saveTo);
+        $list = $this->list($target);
+        $filename = $list[0]['file'];
+        $f = $this->get($filename, $saveTo);
+        return $f;
     }
 
     /**
@@ -186,29 +194,29 @@ class S3 extends Archiver
      * @return array $list
      */
     public function list($target = false)
-    
-    {
-	    if(!$target) {
-		    $target = $this->config['target'];
-	    
-	    }
 
-$this->createConnexion();
+    {
+        if (!$target) {
+            $target = $this->config['target'];
+
+        }
+
+        $this->createConnexion();
         $results = $this->client->getPaginator('ListObjects', [
             'Bucket' => $this->config['bucket']
         ]);
         $list = [];
-	foreach ($results as $result) {
+        foreach ($results as $result) {
             if ($result['IsTruncated'] === true || (!isset($result['Contents']) || !is_array($result['Contents']))) {
                 $this->io->writeln("bucket " . $result['bucket'] . " is empty");
                 continue;
             }
-	    foreach ($result['Contents'] as $object) {
+            foreach ($result['Contents'] as $object) {
                 if (preg_match("#^" . $target . "_([0-9]{4}-[0-9]{2}-[0-9]{2}_[0-9]{6}.*)#", $object['Key'], $matches)) {
                     $list[$object['Key']] = [
                         'date' => $matches[1],
-			'file' => $object['Key'],
-			'size' => $this->getHumanReadableSize($object['Size'])
+                        'file' => $object['Key'],
+                        'size' => $this->getHumanReadableSize($object['Size'])
                     ];
                 }
             }
@@ -224,34 +232,36 @@ $this->createConnexion();
      */
     public function delete($filename)
     {
-	    $this->createConnexion();
-	    $this->client->deleteObject([
-		    "Bucket" => $this->config['bucket'],
-		    "Key"=> $filename
-	    ]);	    
-	    return true;
+        $this->createConnexion();
+        $this->client->deleteObject([
+            "Bucket" => $this->config['bucket'],
+            "Key" => $filename
+        ]);
+        return true;
     }
 
 
-	public function listBuckets() {
-		$this->createConnexion();
-		//Listing all S3 Bucket
-		$buckets = $this->client->listBuckets();
-		$list = [];
-		foreach ($buckets['Buckets'] as $bucket) {
-    			$list[] = [$bucket['Name']];
-		}
-		return $list;
-	}
-
-
-public function listPolicy() {
-                $this->createConnexion();
-                //Listing all S3 Bucket
-		$response = $this->client->getBucketPolicy([
-			'Bucket' => $this->config['bucket']
-		]);
-		return $response->get('Policy');
+    public function listBuckets()
+    {
+        $this->createConnexion();
+        //Listing all S3 Bucket
+        $buckets = $this->client->listBuckets();
+        $list = [];
+        foreach ($buckets['Buckets'] as $bucket) {
+            $list[] = [$bucket['Name']];
         }
+        return $list;
+    }
+
+
+    public function listPolicy()
+    {
+        $this->createConnexion();
+        //Listing all S3 Bucket
+        $response = $this->client->getBucketPolicy([
+            'Bucket' => $this->config['bucket']
+        ]);
+        return $response->get('Policy');
+    }
 
 }

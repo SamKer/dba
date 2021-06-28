@@ -29,4 +29,13 @@ class Skip extends Dumper
         $this->io->success("base dumped to $file");
         return true;
     }
+
+    /**
+     * @param $file
+     * @return mixed
+     */
+    public function restore()
+    {
+        // TODO: Implement restore() method.
+    }
 }

@@ -12,4 +12,11 @@ interface ICompressor
      * @return string $file path compressed
      */
     public function compress($file);
+
+    /**
+     * Uncompress
+     * @param string $file
+     * @return string $file path uncompressed
+     */
+    public function uncompress($file);
 }
