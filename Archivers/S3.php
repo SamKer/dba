@@ -3,6 +3,7 @@
 namespace DBA\Archivers;
 
 use Aws\Credentials\Credentials;
+use Aws\S3\Exception\S3Exception;
 use Aws\S3\MultipartUploader;
 use Aws\S3\MultipartUploadException;
 
@@ -145,16 +146,24 @@ class S3 extends Archiver
      */
     public function get($filename, $saveTo)
     {
-	    $saveTo = $saveTo.'/'.$filename;
-	    $this->client->getObject(array(
-    		'Bucket' => $this->config['bucket'],
-    		'Key'    => $filename,
-    		'SaveAs' => $saveTo
-	));
-	if(file_exists($saveTo)) {
-		throw new \Exception("donwload fail");
-	}
-	return true;
+        $saveTo = $saveTo . '/' . $filename;
+        $result = $this->client->getObject(array(
+            'Bucket' => $this->config['bucket'],
+            'Key' => $filename,
+//            'SaveAs' => $saveTo => not working ???
+        ));
+        $r = '';
+        $result['Body']->rewind();
+        while ($data = $result['Body']->read(1024)) {
+            $r .= $data;
+        }
+        if($r === '') {
+            throw new \Exception("file downloaded empty: $filename");
+        }
+        if(!file_put_contents($saveTo, $r)) {
+            throw new \Exception("donwload fail: $filename");
+        }
+        return true;
     }
 
 
