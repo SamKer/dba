@@ -1,0 +1,37 @@
+version: '3.3'
+services:
+  db:
+    image: ${DOCKER_REGISTRY}mysql:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'dba'
+      # So you don't have to use root, but you can i f you like
+      MYSQL_USER: 'sic'
+      # You can use whatever password you like
+      MYSQL_PASSWORD: 'sic'
+      # Password for root access
+      MYSQL_ROOT_PASSWORD: 'dba'
+    ports:
+      # <Port exposed> : < MySQL Port running inside container>
+      - '3307:3306'
+    expose:
+      - '3306'
+    volumes:
+      - dba-vol:/var/lib/mysql
+# Names our volume
+
+  phpmyadmin:
+    image: phpmyadmin
+    container_name: pma
+    links:
+      - 'db'
+    environment:
+      PMA_HOST: 'db'
+      PMA_PORT: 3306
+      PMA_ARBITRARY: 1
+    restart: always
+    ports:
+      - 8081:80
+
+volumes:
+  dba-vol:

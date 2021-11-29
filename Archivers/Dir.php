@@ -81,7 +81,7 @@ class Dir extends Archiver
             throw new \Exception("archiver failed to download file to $dest");
         }
         $this->io->success("downloaded {$filename} to {$dest}");
-        return true;
+        return $dest;
     }
 
 
@@ -93,6 +93,10 @@ class Dir extends Archiver
      */
     public function last($target, $saveTo)
     {
+        /**
+         * utilistion de $target ?
+         */
+
         $list = $this->list();
         $last = array_shift($list);
         return $this->get($last['file'], $saveTo);
@@ -107,7 +111,7 @@ class Dir extends Archiver
     {
         $list = [];
         $finder = new Finder();
-        $files = $finder->files()->in($this->config['directory'])->contains($this->target);
+        $files = $finder->files()->in($this->config['directory'])->name("$this->target*");
         foreach ($files as $file) {
                 $date = (new \DateTime())->setTimestamp($file->getATime())->format("Y-m-d H:i:s");
                 $list[$date] = [

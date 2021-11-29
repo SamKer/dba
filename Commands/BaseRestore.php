@@ -51,7 +51,6 @@ protected function execute(InputInterface $input, OutputInterface $output)
     //last from archiver
 	$archiver = $config['archiver'];
 	$fileRestored = $archiver->last($target, "$tmpDir");
-
 	$compressor = $config['compressor'];
 	$file = $compressor->uncompress($fileRestored);
 
