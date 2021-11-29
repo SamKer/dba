@@ -49,8 +49,24 @@ class Mysql extends Dumper
      * @param $file
      * @return mixed
      */
-    public function restore()
+    public function restore($file)
     {
-        // TODO: Implement restore() method.
+        $user = $this->config['dbuser'];
+        $pwd = $this->config['dbpassword'];
+        $db = $this->config['dbname'];
+        $port = $this->config['dbport'];
+        $host = $this->config['dbhost'];
+
+        $cmd = "mysql -u$user -p$pwd -h $host -P $port $db < $file";
+        $process = new Process($cmd);
+        $process->run();
+
+        // executes after the command finishes
+        if (!$process->isSuccessful()) {
+            throw new ProcessFailedException($process);
+        }
+            $this->io->success("base restored from $file");
+            return true;
+
     }
 }
