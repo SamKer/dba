@@ -11,6 +11,7 @@ use DBA\Commands\BaseList;
 use DBA\Commands\BaseRestore;
 use DBA\Commands\BucketList;
 use DBA\Commands\BucketPolicy;
+use DBA\Commands\Pharme;
 use Symfony\Component\Console\Application;
 
 define("PROJECT_DIR", __DIR__ );
@@ -25,6 +26,7 @@ $application = new Application('DBA', DBA_VERSION);
 
 
 //$application->add(new GenerateConfig());
+$application->add(new Pharme());
 $application->add(new BaseArchive());
 $application->add(new BaseList());
 $application->add(new BaseLast());

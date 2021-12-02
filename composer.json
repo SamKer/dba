@@ -16,7 +16,8 @@
         "symfony/yaml": "^4.2",
         "symfony/var-dumper": "^4.3",
         "symfony/process": "^4.2",
-        "symfony/finder": "^4.3"
+        "symfony/finder": "^4.3",
+        "symfony/flex": "^2.0"
     },
     "autoload": {
         "psr-4": {
@@ -27,13 +28,6 @@
         "ssl": {
             "verify_peer": "false"
         }
-    },
-    "repositories": {
-        "pic-prod": {
-             "type": "composer",
-             "url": "http://nexus-pic.gendarmerie.fr/repository/composer-group/"
-        },
-	"packagist": false
     },
     "config": {
 	    "secure-http": false
