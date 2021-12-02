@@ -1,0 +1,14 @@
+version: '3.4'
+
+services:
+
+  php:
+    build:
+      context: docker
+      args:
+        PHP_VERSION: ${PHP_VERSION}
+    image: dba:php-${PHP_VERSION}
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www/
+      - ./docker/30-dba.ini:/usr/local/etc/php/conf.d/30-dba.ini
