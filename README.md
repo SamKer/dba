@@ -44,10 +44,11 @@ composer install
 ### source from nexus
 ```bash
 sudo su
-cd /var/www/
-curl http://nexus-pic.gendarmerie.fr/repository/binaries-stc/dba/dba-1.2.1.tar.gz -o dba-1.2.1.tar.gz
-tar -xvzf dba-1.2.1.tar.gz
-rm dba-1.2.1.tar.gz
+cd /tmp/
+curl http://nexus-pic.gendarmerie.fr/repository/binaries-stc/dba/dba-latest.tar.gz -o dba.tar.gz
+tar -xvzf dba.tar.gz
+mv dba /var/www/dba
+rm dba.tar.gz
 cd dba/
 ```
 
