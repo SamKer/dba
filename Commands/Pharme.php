@@ -75,8 +75,8 @@ class Pharme extends Command
 
             $innerIterator = new \RecursiveDirectoryIterator(PROJECT_DIR, FilesystemIterator::SKIP_DOTS);
             $iterator = new \RecursiveIteratorIterator(new \RecursiveCallbackFilterIterator($innerIterator, self::FILTER));
-            //$phar->buildFromDirectory(PROJECT_DIR, $includePattern);
             $phar->buildFromIterator($iterator, PROJECT_DIR);
+            $phar->setDefaultStub("dba.php");
 
             if (file_exists($file)) {
                 $io->success("phar build into $file");
