@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 version: '3.4'
 
 services:
@@ -38,7 +37,7 @@ services:
     image: phpmyadmin
     container_name: pma
     links:
-      - 'db'
+      - mysql
     environment:
       PMA_HOST: 'db'
       PMA_PORT: 3306

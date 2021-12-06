@@ -37,6 +37,7 @@ class Tar extends Compressor
     {
         $fileU = str_replace(".tar.gz", "",$file);
         $tar = new \PharData($file);
+
         $tar->extractTo(dirname($fileU));
 
         $this->io->success("file uncompressed to $fileU");

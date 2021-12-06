@@ -10,7 +10,7 @@
         }
     ],
     "require": {
-	"aws/aws-sdk-php": "^3.90",
+	    "aws/aws-sdk-php": "^3.90",
         "symfony/console": "^4.3",
         "symfony/filesystem": "^4.3",
         "symfony/yaml": "^4.2",
