@@ -35,8 +35,9 @@ class Mongo extends Dumper
         $host = $this->config['dbhost'];
         $dbauth = $this->config['dbauthentication'];
 
-        $cmd = "mysqldump -u $user -p $pwd --host $host --port $port --authenticationDatabase $dbauth -d $db -o $file";
+        $cmd = "mongodump --host $host --port $port --authenticationDatabase=$db --username=$user --password=$pwd --archive=$file";
         $process = new Process($cmd);
+        //dump($file);die;
         $process->run();
 
         // executes after the command finishes
@@ -51,8 +52,29 @@ class Mongo extends Dumper
      * @param $file
      * @return mixed
      */
-    public function restore()
+    public function restore($file)
     {
-        // TODO: Implement restore() method.
+
+        $user = $this->config['dbuser'];
+        $pwd = $this->config['dbpassword'];
+        $db = $this->config['dbname'];
+        $port = $this->config['dbport'];
+        $host = $this->config['dbhost'];
+        $dbauth = $this->config['dbauthentication'];
+
+        $cmd = "mongorestore --host $host  --port $port --authenticationDatabase=$db --username=$user --password=$pwd --archive=$file";
+
+        //$cmd = "mongoimport --uri='mongodb://$user:$pwd@$host:$port/$db' --collection=$dbauth --file=$file";
+
+        $process = new Process($cmd);
+        $process->run();
+
+        // executes after the command finishes
+        if (!$process->isSuccessful()) {
+            throw new ProcessFailedException($process);
+        }
+        $this->io->success("base restored from $file");
+        return true;
+
     }
 }

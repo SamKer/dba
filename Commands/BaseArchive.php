@@ -44,15 +44,14 @@ protected function execute(InputInterface $input, OutputInterface $output)
 	if(!$target) {
 		throw new \Exception('aucun argument target');
 	}
-	
+
 	$config = Config::getTarget($target, $io);
 	if(!$config) {
 		throw new \Exception("aucune config n'a été définie pour $target");
-	}	
+	}
 
 	$tmp = Config::get('tmp_dir');
 	$filetmpraw = $tmp."/". $target."_".(new \DateTime())->format('Y-m-d_His').".sql";
-	
 	$dumper = $config['dumper'];
 	$compressor = $config['compressor'];
 	$archiver = $config['archiver'];

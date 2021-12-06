@@ -5,7 +5,7 @@ services:
     restart: always
     environment:
       MYSQL_DATABASE: 'dba'
-      # So you don't have to use root, but you can i f you like
+      # So you don't have to use root, but you can if you like
       MYSQL_USER: 'sic'
       # You can use whatever password you like
       MYSQL_PASSWORD: 'sic'
@@ -32,6 +32,21 @@ services:
     restart: always
     ports:
       - 8081:80
+
+  database:
+    image: '${DOCKER_REGISTRY}mongo'
+    container_name: 'mongodb'
+    environment:
+      - MONGO_INITDB_DATABASE=db
+      - MONGO_INITDB_ROOT_USERNAME=dba
+      - MONGO_INITDB_ROOT_PASSWORD=dba
+    volumes:
+      - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+      - ./mongo-volume:/data/db
+    ports:
+      - '27017:27017'
+
+
 
 volumes:
   dba-vol:
