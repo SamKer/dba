@@ -8,3 +8,5 @@ composer.lock
 /mongodata1/
 init-mongo.js
 restaurants.json
+docker-compose.yml
+.docker

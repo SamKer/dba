@@ -7,7 +7,10 @@
  */
 namespace DBA\Commands;
 
+use DBA\Archivers\IArchiver;
+use DBA\Compressors\ICompressor;
 use DBA\Config;
+use DBA\Dumpers\IDumper;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;
@@ -20,6 +23,7 @@ use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
+use Symfony\Component\Yaml\Dumper;
 
 class BaseArchive extends Command
 {
@@ -51,12 +55,15 @@ protected function execute(InputInterface $input, OutputInterface $output)
 	}
 
 	$tmp = Config::get('tmp_dir');
-	$filetmpraw = $tmp."/". $target."_".(new \DateTime())->format('Y-m-d_His').".sql";
-	$dumper = $config['dumper'];
-	$compressor = $config['compressor'];
+
+	/** @var IDumper $dumper */
+    $dumper = $config['dumper'];
+    $fileName = $dumper->nameFile($tmp);
+    $filetmpraw = "$tmp/$fileName";
+	/** @var ICompressor $compressor */
+    $compressor = $config['compressor'];
+    /** @var IArchiver $archiver */
 	$archiver = $config['archiver'];
-
-
 
 	//tableau
 //	$table = new Table($io);

@@ -65,7 +65,6 @@ class Config
             $conf['dumper']['target'] = $key;
             $conf['compressor']['target'] = $key;
             $conf['archiver']['target'] = $key;
-
             $conf['dumper'] = new $conf['dumper']['class']($key, $conf['dumper'], $io);
             $conf['compressor'] = new $conf['compressor']['class']($key, $conf['compressor'], $io);
             $conf['archiver'] = new $conf['archiver']['class']($key, $conf['archiver'], $io);

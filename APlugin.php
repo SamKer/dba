@@ -10,12 +10,12 @@ abstract class APlugin implements IPlugin
 {
 
     /** string target */
-    protected $target = "";
+    protected string $target = "";
 
     /**
      * @param array
      */
-    protected $config = [];
+    protected array $config = [];
 
     /**
      * @var bool|SymfonyStyle

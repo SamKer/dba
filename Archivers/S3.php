@@ -25,16 +25,6 @@ class S3 extends Archiver
         ];
     }
 
-    /**
-     * Check config
-     * @param array $config
-     * @return boolean true on success
-     */
-    public function checkConfig($config)
-    {
-        parent::checkConfig($config);
-    }
-
 
     private function createConnexion()
     {
@@ -119,17 +109,15 @@ class S3 extends Archiver
             'UploadId' => $uploadId,
             'MultipartUpload' => $parts,
         ]);
-        //$url = $result['Location'];
         $url = $this->config['endpoint'] . "/" . $this->config['bucket'] . "/" . $name;
         $this->io->success("base archived to {$url}");
 
-        //TODO purge old file !! important
         //purge if too much files
         $list = $this->list();
         $nlast = $this->getConfig()['nlast'];
         if (count($list) > $nlast) {
             $toPurge = array_slice($list, $nlast - count($list));
-            foreach ($toPurge as $k => $v) {
+            foreach ($toPurge as $v) {
                 $this->io->success("delete old file {$v['file']}");
                 $this->delete($v['file']);
             }
@@ -184,8 +172,7 @@ class S3 extends Archiver
     {
         $list = $this->list($target);
         $filename = $list[0]['file'];
-        $f = $this->get($filename, $saveTo);
-        return $f;
+        return $this->get($filename, $saveTo);
     }
 
     /**

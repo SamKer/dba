@@ -34,7 +34,7 @@ class Skip extends Dumper
      * @param $file
      * @return mixed
      */
-    public function restore()
+    public function restore($file)
     {
         // TODO: Implement restore() method.
     }

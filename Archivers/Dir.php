@@ -53,7 +53,7 @@ class Dir extends Archiver
         $nlast = $this->getConfig()['nlast'];
         if(count($list) > $nlast) {
             $toPurge = array_slice($list, $nlast- count($list));
-            foreach ($toPurge as $k => $v) {
+            foreach ($toPurge as $v) {
                 $this->io->success("delete old file {$v['file']}");
                 $this->delete($v['file']);
             }
@@ -71,7 +71,6 @@ class Dir extends Archiver
     {
         $dest = $saveTo.'/'.$filename;
         $orig = $this->config['directory'] . "/" . $filename;
-//        $dest = Config::get('tmp_dir') . "/" . $filename;
         $fs = new Filesystem();
         if (!$fs->exists($orig)) {
             throw new \Exception("no archive found at $orig");

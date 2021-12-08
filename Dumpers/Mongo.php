@@ -33,11 +33,8 @@ class Mongo extends Dumper
         $db = $this->config['dbname'];
         $port = $this->config['dbport'];
         $host = $this->config['dbhost'];
-        $dbauth = $this->config['dbauthentication'];
-
         $cmd = "mongodump --host $host --port $port --authenticationDatabase=$db --username=$user --password=$pwd --archive=$file";
         $process = new Process($cmd);
-        //dump($file);die;
         $process->run();
 
         // executes after the command finishes
@@ -60,11 +57,8 @@ class Mongo extends Dumper
         $db = $this->config['dbname'];
         $port = $this->config['dbport'];
         $host = $this->config['dbhost'];
-        $dbauth = $this->config['dbauthentication'];
 
         $cmd = "mongorestore --host $host  --port $port --authenticationDatabase=$db --username=$user --password=$pwd --archive=$file";
-
-        //$cmd = "mongoimport --uri='mongodb://$user:$pwd@$host:$port/$db' --collection=$dbauth --file=$file";
 
         $process = new Process($cmd);
         $process->run();
