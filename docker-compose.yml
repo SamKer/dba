@@ -2,16 +2,16 @@ version: '3.4'
 
 services:
 
-  php:
-    build:
-      context: docker
-      args:
-        PHP_VERSION: ${PHP_VERSION}
-    image: dba:php-${PHP_VERSION}
-    working_dir: /var/www
-    volumes:
-      - ./:/var/www/
-      - ./docker/30-dba.ini:/usr/local/etc/php/conf.d/30-dba.ini
+#  php:
+#    build:
+#      context: docker
+#      args:
+#        PHP_VERSION: ${PHP_VERSION}
+#    image: dba:php-${PHP_VERSION}
+#    working_dir: /var/www
+#    volumes:
+#      - ./:/var/www/
+#      - ./docker/30-dba.ini:/usr/local/etc/php/conf.d/30-dba.ini
 
   mysql:
     image: ${DOCKER_REGISTRY}mysql:5.7
@@ -37,7 +37,7 @@ services:
     image: phpmyadmin
     container_name: pma
     links:
-      - 'db'
+      - 'mysql'
     environment:
       PMA_HOST: 'db'
       PMA_PORT: 3306
@@ -54,8 +54,8 @@ services:
       - MONGO_INITDB_ROOT_USERNAME=dba
       - MONGO_INITDB_ROOT_PASSWORD=dba
     volumes:
-      - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
-      - ./mongo-volume:/data/db
+      - ./var/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+      - ./var/mongo-volume:/data/db
     ports:
       - '27017:27017'
 

@@ -6,7 +6,7 @@ composer.lock
 /var/
 /mongo-volume/
 /mongodata1/
-init-mongo.js
+var/init-mongo.js
 restaurants.json
 docker-compose.yml
 .docker

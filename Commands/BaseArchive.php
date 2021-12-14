@@ -11,6 +11,7 @@ use DBA\Archivers\IArchiver;
 use DBA\Compressors\ICompressor;
 use DBA\Config;
 use DBA\Dumpers\IDumper;
+use DBA\Exceptions\CommandsExceptions;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;
@@ -43,15 +44,14 @@ protected function execute(InputInterface $input, OutputInterface $output)
 
 	$io->title('Archive Base');
 
-
 	$target = $input->getArgument('target');
 	if(!$target) {
-		throw new \Exception('aucun argument target');
+        throw new CommandsExceptions('aucun argument target');
 	}
 
 	$config = Config::getTarget($target, $io);
 	if(!$config) {
-		throw new \Exception("aucune config n'a été définie pour $target");
+        throw new CommandsExceptions("aucune config n'a été définie pour $target");
 	}
 
 	$tmp = Config::get('tmp_dir');
@@ -80,17 +80,17 @@ protected function execute(InputInterface $input, OutputInterface $output)
 
 	//dump
 	if (!$dumper->dump($filetmpraw)) {
-	    throw new \Exception("dump failed");
+	    throw new CommandsExceptions("dump failed");
     }
 
 	//compress
 	if(! ($filetmp = $compressor->compress($filetmpraw))) {
-        throw new \Exception("compress failed");
+        throw new CommandsExceptions("compress failed");
     }
 
 	//save
 	if(!$archiver->put($filetmp)) {
-	    throw new \Exception("archive failed");
+        throw new CommandsExceptions("archive failed");
     }
 
 	//cleaner

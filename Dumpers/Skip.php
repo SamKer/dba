@@ -2,6 +2,7 @@
 
 namespace DBA\Dumpers;
 
+use DBA\Exceptions\DumpersExceptions;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 
@@ -24,7 +25,7 @@ class Skip extends Dumper
     {
         $localFile = $this->config['localfile'];
         if(!copy($localFile, $file)) {
-            throw new ProcessFailedException("copy $localFile to $file failed");
+            throw new DumpersExceptions("copy $localFile to $file failed");
         }
         $this->io->success("base dumped to $file");
         return true;

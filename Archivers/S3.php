@@ -6,6 +6,7 @@ use Aws\Credentials\Credentials;
 use Aws\S3\Exception\S3Exception;
 use Aws\S3\MultipartUploader;
 use Aws\S3\MultipartUploadException;
+use DBA\Exceptions\ArchiversExceptions;
 
 class S3 extends Archiver
 {
@@ -149,11 +150,11 @@ class S3 extends Archiver
         }
 
         if ($r === '') {
-            throw new \Exception("file downloaded empty: $filename");
+            throw new ArchiversExceptions("file downloaded empty: $filename");
         }
         file_put_contents($saveTo, $r);
         if (!file_exists($saveTo)) {
-            throw new \Exception("donwload fail: $filename");
+            throw new ArchiversExceptions("donwload fail: $filename");
         }
         $this->io->success("Getting file {$filename}");
 

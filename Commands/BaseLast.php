@@ -8,6 +8,7 @@
 namespace DBA\Commands;
 
 use DBA\Config;
+use DBA\Exceptions\CommandsExceptions;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -40,7 +41,7 @@ protected function execute(InputInterface $input, OutputInterface $output)
 
 	$target = $input->getArgument('target');
 	if(!$target) {
-		throw new \Exception('no argument target');
+		throw new CommandsExceptions('no argument target');
 	}
 	$saveto = $input->getArgument('saveto');
 
@@ -48,7 +49,7 @@ protected function execute(InputInterface $input, OutputInterface $output)
 	
 	$config = Config::getTarget($target, $io);
 	if(!$config) {
-		throw new \Exception("no config defined for $target");
+        throw new CommandsExceptions("no config defined for $target");
 	}
     //last from archiver
 	$archiver = $config['archiver'];

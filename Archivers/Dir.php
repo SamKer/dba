@@ -4,6 +4,7 @@ namespace DBA\Archivers;
 
 
 use DBA\Config;
+use DBA\Exceptions\ArchiversExceptions;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 
@@ -28,7 +29,7 @@ class Dir extends Archiver
         parent::checkConfig($config);
         $fs = new Filesystem();
         if (!$fs->exists($config['directory'])) {
-            throw new \Exception("directory " . $config['directory'] . " is not exist");
+            throw new ArchiversExceptions("directory " . $config['directory'] . " is not exist");
         }
     }
 
@@ -44,7 +45,7 @@ class Dir extends Archiver
         $fs = new Filesystem();
         $fs->copy($file, $dest);
         if (!$fs->exists($dest)) {
-            throw new \Exception("archiver failed to put file to $dest");
+            throw new ArchiversExceptions("archiver failed to put file to $dest");
         }
         $this->io->success("Uploaded {$file} to {$dest}");
 
@@ -73,11 +74,11 @@ class Dir extends Archiver
         $orig = $this->config['directory'] . "/" . $filename;
         $fs = new Filesystem();
         if (!$fs->exists($orig)) {
-            throw new \Exception("no archive found at $orig");
+            throw new ArchiversExceptions("no archive found at $orig");
         }
         $fs->copy($orig, $dest);
         if (!$fs->exists($dest)) {
-            throw new \Exception("archiver failed to download file to $dest");
+            throw new ArchiversExceptions("archiver failed to download file to $dest");
         }
         $this->io->success("downloaded {$filename} to {$dest}");
         return $dest;
@@ -135,7 +136,7 @@ class Dir extends Archiver
     {
         $dest = $this->config['directory'] . "/" . $filename;
         if(!unlink($dest)) {
-            throw new \Exception("delete $filename failed");
+            throw new ArchiversExceptions("delete $filename failed");
         }
         return true;
     }
