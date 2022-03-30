@@ -13,6 +13,13 @@ services:
 #      - ./:/var/www/
 #      - ./docker/30-dba.ini:/usr/local/etc/php/conf.d/30-dba.ini
 
+
+  php:
+    image: ${DOCKER_REGISTRY}php
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www/
+
   mysql:
     image: ${DOCKER_REGISTRY}mysql:5.7
     restart: always
