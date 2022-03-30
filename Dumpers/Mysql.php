@@ -20,7 +20,6 @@ class Mysql extends Dumper
         ];
     }
 
-
     /**
      * Dump to file
      * @param string $file

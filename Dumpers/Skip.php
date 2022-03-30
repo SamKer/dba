@@ -39,4 +39,5 @@ class Skip extends Dumper
     {
         // TODO: Implement restore() method.
     }
+
 }

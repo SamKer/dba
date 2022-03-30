@@ -36,5 +36,4 @@ abstract class Dumper extends APlugin implements IDumper
         return $filetmpraw;
 
     }
-
 }

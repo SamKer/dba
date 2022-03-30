@@ -218,7 +218,7 @@ class S3 extends Archiver
      * @param string $filename
      * @return boolean true on success
      */
-    public function delete($filename)
+    public function delete($filename): bool
     {
         $this->createConnexion();
         $this->client->deleteObject([

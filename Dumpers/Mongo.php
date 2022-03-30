@@ -9,7 +9,7 @@ use Symfony\Component\Process\Process;
 class Mongo extends Dumper
 {
 
-    public function implementsParams()
+    public function implementsParams(): array
     {
         return [
             "dbhost",

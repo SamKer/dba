@@ -45,6 +45,7 @@ class Pgsql extends Dumper
         return true;
     }
 
+
     /**
      * @param $file
      * @return mixed

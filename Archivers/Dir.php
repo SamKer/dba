@@ -90,6 +90,7 @@ class Dir extends Archiver
      * @param string $target
      * @param string $saveTo
      * @return string $filename
+     * @throws ArchiversExceptions
      */
     public function last($target, $saveTo)
     {
