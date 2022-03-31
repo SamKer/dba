@@ -2,21 +2,21 @@
 
 namespace DBA\Dumpers;
 
+use DBA\Exceptions\DumpersExceptions;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 
 class Mongo extends Dumper
 {
 
-    public function implementsParams()
+    public function implementsParams(): array
     {
         return [
             "dbhost",
             "dbport",
             "dbname",
             "dbuser",
-            "dbpassword",
-            "dbauthentication"
+            "dbpassword"
         ];
     }
 
@@ -33,15 +33,13 @@ class Mongo extends Dumper
         $db = $this->config['dbname'];
         $port = $this->config['dbport'];
         $host = $this->config['dbhost'];
-        $dbauth = $this->config['dbauthentication'];
-
-        $cmd = "mysqldump -u $user -p $pwd --host $host --port $port --authenticationDatabase $dbauth -d $db -o $file";
+        $cmd = "mongodump --host $host --port $port --authenticationDatabase=$db --username=$user --password=$pwd --archive=$file";
         $process = new Process($cmd);
         $process->run();
 
         // executes after the command finishes
         if (!$process->isSuccessful()) {
-            throw new ProcessFailedException($process);
+            throw new DumpersExceptions($process);
         }
         $this->io->success("base dumped to $file");
         return true;
@@ -51,8 +49,26 @@ class Mongo extends Dumper
      * @param $file
      * @return mixed
      */
-    public function restore()
+    public function restore($file)
     {
-        // TODO: Implement restore() method.
+
+        $user = $this->config['dbuser'];
+        $pwd = $this->config['dbpassword'];
+        $db = $this->config['dbname'];
+        $port = $this->config['dbport'];
+        $host = $this->config['dbhost'];
+
+        $cmd = "mongorestore --host $host  --port $port --authenticationDatabase=$db --username=$user --password=$pwd --archive=$file";
+
+        $process = new Process($cmd);
+        $process->run();
+
+        // executes after the command finishes
+        if (!$process->isSuccessful()) {
+            throw new DumpersExceptions($process);
+        }
+        $this->io->success("base restored from $file");
+        return true;
+
     }
 }

@@ -1,25 +1,31 @@
-<<<<<<< HEAD
 version: '3.4'
 
 services:
 
+#  php:
+#    build:
+#      context: docker
+#      args:
+#        PHP_VERSION: ${PHP_VERSION}
+#    image: dba:php-${PHP_VERSION}
+#    working_dir: /var/www
+#    volumes:
+#      - ./:/var/www/
+#      - ./docker/30-dba.ini:/usr/local/etc/php/conf.d/30-dba.ini
+
+
   php:
-    build:
-      context: docker
-      args:
-        PHP_VERSION: ${PHP_VERSION}
-    image: dba:php-${PHP_VERSION}
+    image: ${DOCKER_REGISTRY}php
     working_dir: /var/www
     volumes:
       - ./:/var/www/
-      - ./docker/30-dba.ini:/usr/local/etc/php/conf.d/30-dba.ini
 
   mysql:
     image: ${DOCKER_REGISTRY}mysql:5.7
     restart: always
     environment:
       MYSQL_DATABASE: 'dba'
-      # So you don't have to use root, but you can i f you like
+      # So you don't have to use root, but you can if you like
       MYSQL_USER: 'sic'
       # You can use whatever password you like
       MYSQL_PASSWORD: 'sic'
@@ -38,7 +44,7 @@ services:
     image: phpmyadmin
     container_name: pma
     links:
-      - 'db'
+      - 'mysql'
     environment:
       PMA_HOST: 'db'
       PMA_PORT: 3306
@@ -46,6 +52,21 @@ services:
     restart: always
     ports:
       - 8081:80
+
+  database:
+    image: '${DOCKER_REGISTRY}mongo'
+    container_name: 'mongodb'
+    environment:
+      - MONGO_INITDB_DATABASE=db
+      - MONGO_INITDB_ROOT_USERNAME=dba
+      - MONGO_INITDB_ROOT_PASSWORD=dba
+    volumes:
+      - ./var/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+      - ./var/mongo-volume:/data/db
+    ports:
+      - '27017:27017'
+
+
 
 volumes:
   dba-vol:

@@ -6,6 +6,7 @@ use Aws\Credentials\Credentials;
 use Aws\S3\Exception\S3Exception;
 use Aws\S3\MultipartUploader;
 use Aws\S3\MultipartUploadException;
+use DBA\Exceptions\ArchiversExceptions;
 
 class S3 extends Archiver
 {
@@ -23,16 +24,6 @@ class S3 extends Archiver
             "secret",
             "bucket",
         ];
-    }
-
-    /**
-     * Check config
-     * @param array $config
-     * @return boolean true on success
-     */
-    public function checkConfig($config)
-    {
-        parent::checkConfig($config);
     }
 
 
@@ -119,17 +110,15 @@ class S3 extends Archiver
             'UploadId' => $uploadId,
             'MultipartUpload' => $parts,
         ]);
-        //$url = $result['Location'];
         $url = $this->config['endpoint'] . "/" . $this->config['bucket'] . "/" . $name;
         $this->io->success("base archived to {$url}");
 
-        //TODO purge old file !! important
         //purge if too much files
         $list = $this->list();
         $nlast = $this->getConfig()['nlast'];
         if (count($list) > $nlast) {
             $toPurge = array_slice($list, $nlast - count($list));
-            foreach ($toPurge as $k => $v) {
+            foreach ($toPurge as $v) {
                 $this->io->success("delete old file {$v['file']}");
                 $this->delete($v['file']);
             }
@@ -161,11 +150,11 @@ class S3 extends Archiver
         }
 
         if ($r === '') {
-            throw new \Exception("file downloaded empty: $filename");
+            throw new ArchiversExceptions("file downloaded empty: $filename");
         }
         file_put_contents($saveTo, $r);
         if (!file_exists($saveTo)) {
-            throw new \Exception("donwload fail: $filename");
+            throw new ArchiversExceptions("donwload fail: $filename");
         }
         $this->io->success("Getting file {$filename}");
 
@@ -184,8 +173,7 @@ class S3 extends Archiver
     {
         $list = $this->list($target);
         $filename = $list[0]['file'];
-        $f = $this->get($filename, $saveTo);
-        return $f;
+        return $this->get($filename, $saveTo);
     }
 
     /**
@@ -230,7 +218,7 @@ class S3 extends Archiver
      * @param string $filename
      * @return boolean true on success
      */
-    public function delete($filename)
+    public function delete($filename): bool
     {
         $this->createConnexion();
         $this->client->deleteObject([

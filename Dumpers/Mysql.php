@@ -2,6 +2,7 @@
 
 namespace DBA\Dumpers;
 
+use DBA\Exceptions\DumpersExceptions;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 
@@ -18,7 +19,6 @@ class Mysql extends Dumper
             "dbpassword"
         ];
     }
-
 
     /**
      * Dump to file
@@ -39,7 +39,7 @@ class Mysql extends Dumper
 
         // executes after the command finishes
         if (!$process->isSuccessful()) {
-            throw new ProcessFailedException($process);
+            throw new DumpersExceptions($process);
         }
         $this->io->success("base dumped to $file");
         return true;
@@ -63,7 +63,7 @@ class Mysql extends Dumper
 
         // executes after the command finishes
         if (!$process->isSuccessful()) {
-            throw new ProcessFailedException($process);
+            throw new DumpersExceptions($process);
         }
             $this->io->success("base restored from $file");
             return true;

@@ -3,7 +3,6 @@ namespace DBA;
 require __DIR__.'/vendor/autoload.php';
 
 
-//use DBA\Commands\GenerateConfig;
 use DBA\Commands\BaseArchive;
 use DBA\Commands\BaseLast;
 use DBA\Commands\BaseList;
@@ -24,7 +23,6 @@ define("DBA_VERSION", json_decode(file_get_contents('./composer.json'))->version
 $application = new Application('DBA', DBA_VERSION);
 
 
-//$application->add(new GenerateConfig());
 $application->add(new Pharme());
 $application->add(new BaseArchive());
 $application->add(new BaseList());

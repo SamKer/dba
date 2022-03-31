@@ -4,3 +4,9 @@ config.yml
 .env
 composer.lock
 /var/
+/mongo-volume/
+/mongodata1/
+var/init-mongo.js
+restaurants.json
+docker-compose.yml
+.docker

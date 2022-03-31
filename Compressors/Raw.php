@@ -11,7 +11,7 @@ class Raw extends Compressor
 
     /**
 	 * Compress
-	 * @param strinf $file path
+	 * @param string $file path
 	 * @return string $file path compressed
 	 */
 	public function compress($file) 
