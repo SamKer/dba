@@ -252,4 +252,12 @@ class S3 extends Archiver
         return $response->get('Policy');
     }
 
+
+    public function createBucket($bucketName)
+    {
+        $this->createConnexion();
+        return $this->client->createBucket(array(
+            'Bucket' => $bucketName
+        ));
+    }
 }

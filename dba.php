@@ -7,6 +7,7 @@ use DBA\Commands\BaseArchive;
 use DBA\Commands\BaseLast;
 use DBA\Commands\BaseList;
 use DBA\Commands\BaseRestore;
+use DBA\Commands\BucketCreate;
 use DBA\Commands\BucketList;
 use DBA\Commands\BucketPolicy;
 use DBA\Commands\Pharme;
@@ -31,6 +32,7 @@ $application->add(new BaseRestore());
 
 $application->add(new BucketList());
 $application->add(new BucketPolicy());
+$application->add(new BucketCreate());
 
 $application->run();
 
