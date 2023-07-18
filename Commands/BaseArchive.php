@@ -34,6 +34,7 @@ protected function configure()
         $this->setName("base:archive")
 		->setDescription('archive une base')
 		->addArgument("target", InputArgument::REQUIRED, "target name", null)
+        ->addOption("file", "f", InputOption::VALUE_OPTIONAL, "filepath for skip",null)
             ;
     }
 

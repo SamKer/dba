@@ -10,3 +10,5 @@ var/init-mongo.js
 restaurants.json
 docker-compose.yml
 .docker
+.aws
+tests/

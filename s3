@@ -1,0 +1,52 @@
+#!/usr/bin/env bash
+
+# Large upload file
+
+## vars
+SOURCE="${BASH_SOURCE[0]}"
+DIR=$(dirname ${SOURCE})
+source "${DIR}/.aws"
+FILE=$1
+
+## 1 - first split them
+if [[ ! -d ${PARTS_DIR} ]]
+    then
+        mkdir ${PARTS_DIR}
+fi
+
+split ${FILE} ${FILE}.part -b ${PARTS_SIZE} --numeric-suffixes=1 -a 3
+mv ${FILE}.part* ${PARTS_DIR}/
+
+## 2 - Upload
+
+### prepare
+echo -e "- prepare upload: ~\r"
+id=$(aws --profile partage --output json --no-verify-ssl --endpoint-url https://scality-s3.gendarmerie.fr \
+s3api create-multipart-upload --bucket ${BUCKET} --key ${FILE} | jq -r .UploadId 2> /tmp/aws.log)
+echo -e "- prepare upload: $id"
+s="{\"Parts\":["
+### upload
+i=1
+cd ${PARTS_DIR}
+for f in $(ls ${PARTS_DIR})
+do
+  f="${PARTS_DIR}/${f}"
+  echo -e "upload part ${i}: ${f}: ~"
+  tag=$(aws --profile partage --output json --no-verify-ssl --endpoint-url https://scality-s3.gendarmerie.fr \
+  s3api upload-part --bucket ${BUCKET} --key ${FILE} --part-number ${i} --upload-id ${id} --body ${f} | jq -r .ETag 2> /tmp/aws.log)
+  if [[ ${i} != 1 ]]
+  then
+    s="${s},"
+  fi
+  s="${s}{\"ETag\":${tag},\"PartNumber\":${i}}"
+  i=$((i+1))
+  echo -e "upload part ${i}: ${f}: ${tag}"
+done
+s="${s}]}"
+
+r=$(aws --profile partage --output json --no-verify-ssl --endpoint-url https://scality-s3.gendarmerie.fr \
+  s3api complete-multipart-upload --bucket ${BUCKET} --key ${FILE} --upload-id ${id} --multipart-upload ${s} | jq -r .ETag 2> /tmp/aws.log)
+
+echo $r
+
+exit 0
